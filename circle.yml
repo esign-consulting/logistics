@@ -1,0 +1,11 @@
+## Customize the test machine
+machine:
+
+  # Set the timezone
+  timezone:
+    America/Sao_Paulo
+
+  # Version of java to use
+  java:
+    version:
+      oraclejdk8
