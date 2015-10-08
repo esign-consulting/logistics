@@ -44,7 +44,7 @@ public class WebServiceResponseTest {
         Route route = new Route(new Place("A"), new Place("B"), 10);
         SelfLink selfLink = new SelfLink("http://localhost:8080/logistics/api/maps/sao-paulo/routes/a-b");
         RouteResource routeResource = new RouteResource(route, selfLink);
-        WebServiceResponse response = new WebServiceResponse(200, route);
+        WebServiceResponse response = new WebServiceResponse(200, routeResource);
         assertEquals(200, response.getCode());
     }
 
@@ -56,7 +56,7 @@ public class WebServiceResponseTest {
         Route route = new Route(new Place("A"), new Place("B"), 10);
         SelfLink selfLink = new SelfLink("http://localhost:8080/logistics/api/maps/sao-paulo/routes/a-b");
         RouteResource routeResource = new RouteResource(route, selfLink);
-        WebServiceResponse response = new WebServiceResponse(200, route);
+        WebServiceResponse response = new WebServiceResponse(200, routeResource);
         assertEquals("success", response.getStatus());
     }
 
@@ -68,8 +68,8 @@ public class WebServiceResponseTest {
         Route route = new Route(new Place("A"), new Place("B"), 10);
         SelfLink selfLink = new SelfLink("http://localhost:8080/logistics/api/maps/sao-paulo/routes/a-b");
         RouteResource routeResource = new RouteResource(route, selfLink);
-        WebServiceResponse response = new WebServiceResponse(200, route);
-        assertEquals(route, response.getData());
+        WebServiceResponse response = new WebServiceResponse(200, routeResource);
+        assertEquals(routeResource, response.getData());
     }
     
 }
