@@ -143,39 +143,5 @@
             </plugin>
         </plugins>
     </build>
-    
-    <!-- BEGIN: Specific to mapping unit tests and covered code -->
-    <profiles>
-        <profile>
-            <id>coverage-per-test</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <version>2.18.1</version>
-                        <configuration>
-                            <properties>
-                                <property>
-                                    <name>listener</name>
-                                    <value>org.sonar.java.jacoco.JUnitListener</value>
-                                </property>
-                            </properties>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-
-            <dependencies>
-                <dependency>
-                    <groupId>org.codehaus.sonar-plugins.java</groupId>
-                    <artifactId>sonar-jacoco-listeners</artifactId>
-                    <version>3.2</version>
-                    <scope>test</scope>
-                </dependency>
-            </dependencies>
-        </profile>
-    </profiles>
-    <!-- END: Specific to mapping unit tests and covered code -->
 
 </project>
