@@ -26,15 +26,14 @@ package br.com.esign.logistics.web.response;
 /**
  *
  * @author gustavomunizdocarmo
- * @param <T>
  */
-public class WebServiceResponse<T> {
+public class WebServiceResponse {
     
     private final int code;
     private final String status;
-    private final T data;
+    private final Object data;
 
-    public WebServiceResponse(int code, T data) {
+    public WebServiceResponse(int code, Object data) {
         this.code = code;
         this.status = getStatus(code);
         this.data = data;
@@ -58,7 +57,7 @@ public class WebServiceResponse<T> {
         return status;
     }
 
-    public T getData() {
+    public Object getData() {
         return data;
     }
     

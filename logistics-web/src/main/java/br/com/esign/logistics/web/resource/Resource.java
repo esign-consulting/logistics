@@ -32,7 +32,7 @@ import java.util.Set;
  */
 public abstract class Resource {
     
-    private final Set<Link> links = new HashSet();
+    private final Set<Link> links = new HashSet<>();
     
     public void addLink(Link link) {
         links.add(link);
