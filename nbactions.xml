@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+        <action>
+            <actionName>CUSTOM-JaCoCo</actionName>
+            <displayName>JaCoCo</displayName>
+            <goals>
+                <goal>clean</goal>
+                <goal>org.jacoco:jacoco-maven-plugin:0.7.5.201505241946:prepare-agent</goal>
+                <goal>install</goal>
+            </goals>
+            <properties>
+                <maven.test.failure.ignore>true</maven.test.failure.ignore>
+            </properties>
+            <activatedProfiles>
+                <activatedProfile>coverage-per-test</activatedProfile>
+            </activatedProfiles>
+        </action>
+    </actions>
