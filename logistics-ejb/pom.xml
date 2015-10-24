@@ -55,12 +55,13 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>findbugs-maven-plugin</artifactId>
-                <version>3.0.1</version>
+                <version>3.0.2</version>
                 <configuration>
                     <effort>Max</effort>
                     <threshold>Low</threshold>
                     <xmlOutput>true</xmlOutput>
                     <findbugsXmlOutputDirectory>${project.build.directory}/findbugs</findbugsXmlOutputDirectory>
+                    <maxHeap>1024</maxHeap>
                 </configuration>
                 <executions>
                     <execution>
