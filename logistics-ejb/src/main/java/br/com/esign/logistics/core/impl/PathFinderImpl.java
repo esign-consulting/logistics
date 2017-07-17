@@ -52,16 +52,14 @@ public class PathFinderImpl implements PathFinder {
         places.removeAll(path.getPath());
         if (!places.isEmpty()) {
             path.addPlace(origin);
-            places.stream().forEach((place) -> {
+            places.stream().forEach(place -> {
                 Path copy = path.copy();
                 if (place.equals(destination)) {
                     copy.addPlace(destination);
                     paths.add(copy);
                 } else {
                     List<Path> innerPaths = findPossiblePaths(place, destination, copy);
-                    innerPaths.stream().forEach((p) -> {
-                        paths.add(p);
-                    });
+                    innerPaths.stream().forEach(paths::add);
                 }
             });
         }

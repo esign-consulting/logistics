@@ -85,7 +85,7 @@ public class RouteChooserImpl implements RouteChooser<ChosenRoute> {
                 lowestCost = cost;
             }
         }
-        return new ChosenRoute(chosen.getRoutes(), lowestCost);
+        return (chosen == null) ? null : new ChosenRoute(chosen.getRoutes(), lowestCost);
     }
     
 }

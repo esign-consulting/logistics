@@ -28,21 +28,25 @@ import br.com.esign.logistics.core.impl.PathFinderImpl;
 import br.com.esign.logistics.core.impl.RouteChooserImpl;
 import br.com.esign.logistics.core.RoutesMap;
 import br.com.esign.logistics.core.RouteChooser;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Logistics {
 
-	public static void main(String[] args) {
-		RoutesMap routesMap = new RoutesMap("SP");
-		routesMap.addRoute("A", "B", 10);
-		routesMap.addRoute("B", "D", 15);
-		routesMap.addRoute("A", "C", 20);
-		routesMap.addRoute("C", "D", 30);
-		routesMap.addRoute("B", "E", 50);
-		routesMap.addRoute("D", "E", 30);
-		
-                RouteChooser routeChooser = new RouteChooserImpl(routesMap, new PathFinderImpl(), 10, 2.5);
-		ChosenRoute chosenRoute = (ChosenRoute) routeChooser.chooseRoute("A", "D");
-                System.out.println(chosenRoute + ": " + chosenRoute.getCost());
-	}
+    private static final Logger LOGGER = Logger.getLogger(Logistics.class.getName());
+    
+    public static void main(String[] args) {
+            RoutesMap routesMap = new RoutesMap("SP");
+            routesMap.addRoute("A", "B", 10);
+            routesMap.addRoute("B", "D", 15);
+            routesMap.addRoute("A", "C", 20);
+            routesMap.addRoute("C", "D", 30);
+            routesMap.addRoute("B", "E", 50);
+            routesMap.addRoute("D", "E", 30);
+
+            RouteChooser routeChooser = new RouteChooserImpl(routesMap, new PathFinderImpl(), 10, 2.5);
+            ChosenRoute chosenRoute = (ChosenRoute) routeChooser.chooseRoute("A", "D");
+            LOGGER.log(Level.INFO, "{0}: {1}", new Object[] {chosenRoute, chosenRoute.getCost()});
+    }
 
 }

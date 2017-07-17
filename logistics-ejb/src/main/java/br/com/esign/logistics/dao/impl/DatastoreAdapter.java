@@ -24,6 +24,8 @@
 package br.com.esign.logistics.dao.impl;
 
 import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -47,9 +49,34 @@ public class DatastoreAdapter {
     
     @PostConstruct
     public void postConstruct() {
-        datastore = morphiaAdapter.createDatastore(new MongoClient(), "logistics");
+        datastore = morphiaAdapter.createDatastore(getMongoClient(), "logistics");
         datastore.ensureIndexes();
         logger.log(Level.INFO, "Datastore successfully instantiated.");
+    }
+    
+    private MongoClient getMongoClient() {
+        MongoClientURI mongoClientURI = getMongoClientURI();
+        if (mongoClientURI == null) {
+            return new MongoClient();
+        } else {
+            return new MongoClient(mongoClientURI);
+        }
+    }
+    
+    private MongoClientURI getMongoClientURI() {
+        MongoClientURI mongoClientURI;
+        try {
+            DatastoreProperties properties = new DatastoreProperties();
+            String connectionURI = properties.getConnectionURI();
+            if (connectionURI == null || connectionURI.isEmpty()) {
+                mongoClientURI = null;
+            } else {
+                mongoClientURI = new MongoClientURI(connectionURI);
+            }
+        } catch (IOException ex) {
+            mongoClientURI = null;
+        }
+        return mongoClientURI;
     }
 
     public Datastore getDatastore() {

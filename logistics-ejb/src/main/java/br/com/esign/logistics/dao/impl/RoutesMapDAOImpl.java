@@ -74,7 +74,7 @@ public class RoutesMapDAOImpl extends BasicDAO<RoutesMap, String> implements Rou
     @Override
     public void addPlaceToMap(RoutesMap routesMap, Place place) {
         Query<RoutesMap> updateQuery = createQuery().field(Mapper.ID_KEY).equal(routesMap.getName());
-        UpdateOperations<RoutesMap> ops = createUpdateOperations().add("places", place);
+        UpdateOperations<RoutesMap> ops = createUpdateOperations().addToSet("places", place);
         update(updateQuery, ops);
     }
     

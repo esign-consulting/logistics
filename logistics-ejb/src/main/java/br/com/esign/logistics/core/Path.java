@@ -35,24 +35,22 @@ import java.util.Objects;
  */
 public class Path implements Iterable<Place[]> {
 	
-    private final List<Place> path = new ArrayList<>();
+    private final List<Place> placesList = new ArrayList<>();
 
     public void addPlace(Place place) {
-        if (path.contains(place))
+        if (placesList.contains(place))
             throw new IllegalArgumentException();
-        path.add(place);
+        placesList.add(place);
     }
 
     public List<Place> getPath() {
-        return path;
+        return placesList;
     }
 
     public void addPath(Path path) {
         if (path == null)
             throw new IllegalArgumentException();
-        path.getPath().forEach((place) -> {
-            addPlace(place);
-        });
+        path.getPath().forEach(this::addPlace);
     }
 
     public Path copy() {
@@ -64,7 +62,7 @@ public class Path implements Iterable<Place[]> {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 67 * hash + Objects.hashCode(this.path);
+        hash = 67 * hash + Objects.hashCode(this.placesList);
         return hash;
     }
 
@@ -77,26 +75,27 @@ public class Path implements Iterable<Place[]> {
             return false;
         }
         final Path other = (Path) obj;
-        return Objects.equals(this.path, other.path);
+        return Objects.equals(this.placesList, other.placesList);
     }
 
     @Override
     public String toString() {
-        return path.toString();
+        return placesList.toString();
     }
 
     @Override
     public Iterator<Place[]> iterator() {
-        return (path.size() > 1) ? new PathIterator() : null;
+        return (placesList.size() > 1) ? new PathIterator() : null;
     }
     
     private class PathIterator implements Iterator<Place[]> {
         
-        private int i = 0, j = 1;
+        private int i = 0;
+        private int j = 1;
         private final int size;
 
         private PathIterator() {
-            this.size = path.size();
+            this.size = placesList.size();
         }
 
         @Override
@@ -105,10 +104,10 @@ public class Path implements Iterable<Place[]> {
         }
 
         @Override
-        public Place[] next() throws NoSuchElementException {
+        public Place[] next() {
             if (j == size)
                 throw new NoSuchElementException();
-            return new Place[] {path.get(i ++), path.get(j ++)};
+            return new Place[] {placesList.get(i ++), placesList.get(j ++)};
         }
         
     }

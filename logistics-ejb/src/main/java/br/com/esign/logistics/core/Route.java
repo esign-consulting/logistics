@@ -89,7 +89,8 @@ public class Route implements Comparable<Route>, Iterable<Route> {
         if (!iterator.hasNext())
             throw new IllegalArgumentException();
         
-        Place firstPlace = null, lastPlace = null;
+        Place firstPlace = null;
+        Place lastPlace = null;
         StringBuilder nameBuilder = new StringBuilder();
         double distanceSum = 0;
         do {

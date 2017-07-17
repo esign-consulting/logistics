@@ -103,9 +103,7 @@ public class RoutesMap implements Comparable<RoutesMap> {
     
     public List<Route> getRoutes(List<Path> paths) {
         List<Route> routesList = new ArrayList<>();
-        paths.forEach(p -> {
-            routesList.add(getRoute(p));
-        });
+        paths.forEach(p -> routesList.add(getRoute(p)));
         return routesList;
     }
 

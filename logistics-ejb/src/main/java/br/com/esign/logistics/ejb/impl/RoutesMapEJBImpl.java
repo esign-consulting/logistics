@@ -31,6 +31,7 @@ import br.com.esign.logistics.core.RoutesMap;
 import br.com.esign.logistics.core.impl.RouteChooserImpl;
 import br.com.esign.logistics.dao.RoutesMapDAO;
 import br.com.esign.logistics.ejb.RoutesMapEJB;
+import br.com.esign.logistics.ejb.RoutesMapNotFoundException;
 import com.github.slugify.Slugify;
 import java.util.List;
 import javax.ejb.EJB;
@@ -96,7 +97,7 @@ public class RoutesMapEJBImpl implements RoutesMapEJB {
     public void removeRoutesMap(String slug) {
         RoutesMap routesMap = getRoutesMapBySlug(slug);
         if (routesMap == null)
-            throw new EJBException("The map was not found.");
+            throw new RoutesMapNotFoundException();
         try {
             dao.removeRoutesMap(routesMap);
         } catch (Exception e) {
@@ -108,7 +109,7 @@ public class RoutesMapEJBImpl implements RoutesMapEJB {
     public Route[] addRouteToMap(String slug, Route route) {
         RoutesMap routesMap = getRoutesMapBySlug(slug);
         if (routesMap == null)
-            throw new EJBException("The map was not found.");
+            throw new RoutesMapNotFoundException();
         if (route == null || route.getOrigin() == null || route.getDestination() == null || route.getDistance() <= 0)
             throw new EJBException("The route must be properly defined.");
         if (routesMap.containsRoute(route))
@@ -121,10 +122,10 @@ public class RoutesMapEJBImpl implements RoutesMapEJB {
         addPlaceToMap(routesMap, origin);
         addPlaceToMap(routesMap, destination);
         
-        route = addRouteToMap(routesMap, origin, destination, distance);
-        Route oppositeRoute = addRouteToMap(routesMap, destination, origin, distance);
+        Route route1 = addRouteToMap(routesMap, origin, destination, distance);
+        Route route2 = addRouteToMap(routesMap, destination, origin, distance);
         
-        return new Route[] {route, oppositeRoute};
+        return new Route[] {route1, route2};
     }
     
     private void addPlaceToMap(RoutesMap routesMap, Place place) {
@@ -166,7 +167,7 @@ public class RoutesMapEJBImpl implements RoutesMapEJB {
     public void removeRouteFromMap(String slug, Route route) {
         RoutesMap routesMap = getRoutesMapBySlug(slug);
         if (routesMap == null)
-            throw new EJBException("The map was not found.");
+            throw new RoutesMapNotFoundException();
         if (route == null || route.getOrigin() == null || route.getDestination() == null || route.getName() == null)
             throw new EJBException("The route is not valid.");
         if (!routesMap.containsRoute(route))
@@ -191,7 +192,7 @@ public class RoutesMapEJBImpl implements RoutesMapEJB {
     public Route getBestRoute(String slug, String originName, String destinationName, double autonomy, double gasPrice) {
         RoutesMap routesMap = getRoutesMapBySlug(slug);
         if (routesMap == null)
-            throw new EJBException("The map was not found.");
+            throw new RoutesMapNotFoundException();
         
         try {
             routesMap.linkPlaces();
