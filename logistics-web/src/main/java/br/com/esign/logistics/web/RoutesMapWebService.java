@@ -31,6 +31,7 @@ import br.com.esign.logistics.web.resource.SelfLink;
 import br.com.esign.logistics.core.RoutesMap;
 import br.com.esign.logistics.ejb.RoutesMapEJB;
 import br.com.esign.logistics.web.resource.RouteResource;
+import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.logging.Level;
@@ -63,6 +64,9 @@ public class RoutesMapWebService {
     
     private static final Logger logger = Logger.getLogger(RoutesMapWebService.class.getName());
     
+    private static final String MAP_NOT_FOUND_MSG_PATTERN = "The map identified by \"{0}\" was not found.";
+    private static final String ROUTE_NOT_FOUND_MSG_PATTERN = "The route identified by \"{0}\" was not found.";
+    
     @EJB
     private RoutesMapEJB ejb;
     
@@ -85,7 +89,7 @@ public class RoutesMapWebService {
         try {
             RoutesMap map = ejb.getRoutesMapBySlug(slug);
             if (map == null) {
-                return getResponseStatusNotOK(Response.Status.NOT_FOUND, "The map identified by '" + slug + "' was not found.");
+                return getResponseStatusNotOK(Response.Status.NOT_FOUND, MessageFormat.format(MAP_NOT_FOUND_MSG_PATTERN, slug));
             } else {
                 return getResponseStatusOK(getRoutesMapResource(map, uriInfo.getAbsolutePathBuilder()));
             }
@@ -99,8 +103,8 @@ public class RoutesMapWebService {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createRoutesMap(RoutesMap routesMap) {
         try {
-            routesMap = ejb.createRoutesMap(routesMap);
-            return getResponseStatusOK(getRoutesMapResource(routesMap, uriInfo.getAbsolutePathBuilder().path(routesMap.getSlug())));
+            RoutesMap newRoutesMap = ejb.createRoutesMap(routesMap);
+            return getResponseStatusOK(getRoutesMapResource(newRoutesMap, uriInfo.getAbsolutePathBuilder().path(newRoutesMap.getSlug())));
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.getMessage(), e);
             return getResponseStatusNotOK(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());
@@ -125,7 +129,7 @@ public class RoutesMapWebService {
         try {
             RoutesMap map = ejb.getRoutesMapBySlug(slug);
             if (map == null) {
-                return getResponseStatusNotOK(Response.Status.NOT_FOUND, "The map identified by '" + slug + "' was not found.");
+                return getResponseStatusNotOK(Response.Status.NOT_FOUND, MessageFormat.format(MAP_NOT_FOUND_MSG_PATTERN, slug));
             } else {
                 return getResponseStatusOK(map.getRoutes().stream().map(route -> getRouteResource(route, uriInfo.getAbsolutePathBuilder().path(route.getSlug()))).collect(Collectors.toList()));
             }
@@ -158,11 +162,11 @@ public class RoutesMapWebService {
         try {
             RoutesMap map = ejb.getRoutesMapBySlug(mapSlug);
             if (map == null) {
-                return getResponseStatusNotOK(Response.Status.NOT_FOUND, "The map identified by '" + mapSlug + "' was not found.");
+                return getResponseStatusNotOK(Response.Status.NOT_FOUND, MessageFormat.format(MAP_NOT_FOUND_MSG_PATTERN, mapSlug));
             } else {
                 Optional<Route> optional = map.getRoutes().stream().filter(route -> route.getSlug().equals(routeSlug)).findFirst();
                 if (!optional.isPresent()) {
-                    return getResponseStatusNotOK(Response.Status.NOT_FOUND, "The route identified by '" + routeSlug + "' was not found.");
+                    return getResponseStatusNotOK(Response.Status.NOT_FOUND, MessageFormat.format(ROUTE_NOT_FOUND_MSG_PATTERN, routeSlug));
                 } else {
                     return getResponseStatusOK(getRouteResource(optional.get(), uriInfo.getAbsolutePathBuilder()));
                 }
@@ -179,11 +183,11 @@ public class RoutesMapWebService {
         try {
             RoutesMap map = ejb.getRoutesMapBySlug(mapSlug);
             if (map == null) {
-                return getResponseStatusNotOK(Response.Status.NOT_FOUND, "The map identified by '" + mapSlug + "' was not found.");
+                return getResponseStatusNotOK(Response.Status.NOT_FOUND, MessageFormat.format(MAP_NOT_FOUND_MSG_PATTERN, mapSlug));
             } else {
                 Optional<Route> optional = map.getRoutes().stream().filter(route -> route.getSlug().equals(routeSlug)).findFirst();
                 if (!optional.isPresent()) {
-                    return getResponseStatusNotOK(Response.Status.NOT_FOUND, "The route identified by '" + routeSlug + "' was not found.");
+                    return getResponseStatusNotOK(Response.Status.NOT_FOUND, MessageFormat.format(ROUTE_NOT_FOUND_MSG_PATTERN, routeSlug));
                 } else {
                     ejb.removeRouteFromMap(mapSlug, optional.get());
                     return getResponseStatusOK(null);

@@ -150,7 +150,7 @@ angular.module('logistics', ['ui.bootstrap'])
                         map.routes.splice(map.routes.indexOf(result.route), 1);
 
                         var oppositeRouteIndex = -1;
-                        for (i = map.routes.length - 1; i >= 0; i --) {
+                        for (var i = map.routes.length - 1; i >= 0; i --) {
                             if (map.routes[i].name === oppositeRouteName) {
                                 oppositeRouteIndex = i;
                                 break;
