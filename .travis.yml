@@ -1,3 +1,8 @@
 language: java
+
+addons:
+  sonarcloud:
+    organization: "gustavomcarmo-github"
+
 jdk:
   - oraclejdk8
