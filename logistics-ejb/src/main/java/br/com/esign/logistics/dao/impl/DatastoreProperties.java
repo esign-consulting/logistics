@@ -23,8 +23,8 @@
  */
 package br.com.esign.logistics.dao.impl;
 
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
 /**
@@ -36,7 +36,10 @@ public class DatastoreProperties {
     private final Properties properties = new Properties();
     
     public DatastoreProperties() throws IOException {
-        properties.load(new FileReader("datastore.properties"));
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("datastore.properties");
+        if (inputStream == null)
+            throw new IOException("Datastore properties file not found.");
+        properties.load(inputStream);
     }
     
     public String getConnectionURI() {
