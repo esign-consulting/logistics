@@ -36,10 +36,9 @@ public class DatastoreProperties {
     private final Properties properties = new Properties();
     
     public DatastoreProperties() throws IOException {
-        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("datastore.properties");
-        if (inputStream == null)
-            throw new IOException("Datastore properties file not found.");
-        properties.load(inputStream);
+        ClassLoader loader = Thread.currentThread().getContextClassLoader();
+        InputStream resourceStream = loader.getResourceAsStream("datastore.properties");
+        properties.load(resourceStream);
     }
     
     public String getConnectionURI() {

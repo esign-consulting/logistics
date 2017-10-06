@@ -25,8 +25,7 @@ package br.com.esign.logistics.dao.impl;
 
 import java.io.IOException;
 import org.junit.Test;
-import org.junit.Rule;
-import org.junit.rules.ExpectedException;
+import static org.junit.Assert.*;
 
 /**
  *
@@ -34,18 +33,15 @@ import org.junit.rules.ExpectedException;
  */
 public class DatastorePropertiesTest {
     
-    @Rule
-    public ExpectedException exception = ExpectedException.none();
-    
     /**
-     * Test of constructor method, of class DatastoreProperties.
+     * Test of getConnectionURI method, of class DatastoreProperties.
      * @throws java.io.IOException
      */
     @Test
-    public void testConstructor() throws IOException {
-        exception.expect(IOException.class);
-        exception.expectMessage("Datastore properties file not found.");
-        DatastoreProperties datastoreProperties = new DatastoreProperties();
+    public void testGetConnectionURI() throws IOException {
+        DatastoreProperties properties = new DatastoreProperties();
+        String connectionURI = properties.getConnectionURI();
+        assertEquals("mongodb://logistics_user:logistics_user_password@remote_mogodb_server:12345/logistics", connectionURI);
     }
     
 }
