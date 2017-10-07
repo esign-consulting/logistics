@@ -49,13 +49,20 @@
                 <artifactId>maven-ear-plugin</artifactId>
                 <version>2.10.1</version>
                 <configuration>
+                    <finalName>logistics</finalName>
                     <version>6</version>
                     <defaultLibBundleDir>lib</defaultLibBundleDir>
                     <modules>
+                        <ejbModule>
+                            <groupId>br.com.esign</groupId>
+                            <artifactId>logistics-ejb</artifactId>
+                            <bundleFileName>logistics.jar</bundleFileName>
+                        </ejbModule>
                         <webModule>
                             <groupId>br.com.esign</groupId>
                             <artifactId>logistics-web</artifactId>
                             <contextRoot>logistics</contextRoot>
+                            <bundleFileName>logistics.war</bundleFileName>
                         </webModule>
                     </modules>
                 </configuration>
