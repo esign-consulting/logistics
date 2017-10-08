@@ -52,7 +52,7 @@ public class DatastoreAdapter {
     
     @PostConstruct
     public void postConstruct() {
-        MongoClient mongoClient = (connectionURI == null) ? new MongoClient() : new MongoClient(new MongoClientURI(connectionURI));
+        MongoClient mongoClient = new MongoClient(new MongoClientURI(connectionURI));
         datastore = morphiaAdapter.createDatastore(mongoClient, "logistics");
         datastore.ensureIndexes();
         logger.log(Level.INFO, "Datastore successfully instantiated.");
