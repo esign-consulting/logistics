@@ -18,5 +18,6 @@ script:
 
 after_success:
   - "curl -T logistics-ear/target/logistics-ear-1.0-SNAPSHOT.ear -u $FTP_USER:$FTP_PASSWORD ftp://esign.com.br/appservers/wildfly-10.0.0.Final/standalone/deployments/"
+  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
   - docker push esignbr/logistics
   
