@@ -2,6 +2,7 @@ version: "3"
 services:
   app:
     image: esignbr/logistics
+    container_name: "logistics"
     ports:
       - 8080:8080
     links:
