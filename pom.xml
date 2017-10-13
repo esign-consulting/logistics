@@ -9,6 +9,18 @@
     
     <name>logistics</name>
     
+    <organization>
+        <name>Esign Consulting</name>
+        <url>http://www.esign.com.br</url>
+    </organization>
+    
+    <developers>
+        <developer>
+            <email>gustavo@esign.com.br</email>
+            <name>Gustavo Muniz do Carmo</name>
+        </developer>
+    </developers>
+    
     <modules>
         <module>logistics-ejb</module>
         <module>logistics-web</module>
