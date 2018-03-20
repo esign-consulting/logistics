@@ -30,14 +30,19 @@ import br.com.esign.logistics.core.Route;
 import br.com.esign.logistics.core.RoutesMap;
 import br.com.esign.logistics.core.impl.ChosenRoute;
 import br.com.esign.logistics.dao.RoutesMapDAO;
+import br.com.esign.logistics.togglz.MyFeatures;
 import java.util.Arrays;
+import javax.ejb.EJBException;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Rule;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
+import org.togglz.junit.TogglzRule;
 
 /**
  *
@@ -63,6 +68,12 @@ public class RoutesMapEJBImplTest {
     @Mock
     private PathFinder pathFinder;
     
+    @Rule
+    public TogglzRule togglzRule = TogglzRule.allDisabled(MyFeatures.class);
+    
+    @Rule
+    public ExpectedException expectedEx = ExpectedException.none();
+    
     /**
      * Test of getRoutesMapBySlug method, of class RoutesMapEJBImpl.
      */
@@ -70,7 +81,7 @@ public class RoutesMapEJBImplTest {
     public void testGetRoutesMapBySlug() {
         RoutesMap routesMap = new RoutesMap(MAP_NAME);
         Mockito.when(dao.getRoutesMapBySlug(MAP_SLUG)).thenReturn(routesMap);
-        assertNotNull(routesMap);
+        assertEquals(routesMap, dao.getRoutesMapBySlug(MAP_SLUG));
     }
     
     /**
@@ -90,10 +101,23 @@ public class RoutesMapEJBImplTest {
      * Test of removeRoutesMap method, of class RoutesMapEJBImpl.
      */
     @Test
-    public void testRemoveRoutesMap() {
+    public void testRemoveRoutesMap1() {
         RoutesMap routesMap = new RoutesMap(MAP_NAME);
         Mockito.when(dao.getRoutesMapBySlug(MAP_SLUG)).thenReturn(routesMap);
         Mockito.doNothing().when(dao).removeRoutesMap(routesMap);
+        ejb.removeRoutesMap(MAP_SLUG);
+    }
+    
+    /**
+     * Test of removeRoutesMap method, of class RoutesMapEJBImpl.
+     */
+    @Test
+    public void testRemoveRoutesMap2() {
+        RoutesMap routesMap = new RoutesMap(MAP_NAME);
+        Mockito.when(dao.getRoutesMapBySlug(MAP_SLUG)).thenReturn(routesMap);
+        togglzRule.enable(MyFeatures.FEATURE_TWO);
+        expectedEx.expect(EJBException.class);
+        expectedEx.expectMessage("FEATURE_TWO is active!");
         ejb.removeRoutesMap(MAP_SLUG);
     }
 

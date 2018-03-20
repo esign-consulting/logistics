@@ -38,6 +38,17 @@
             <version>7.0</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>org.togglz</groupId>
+            <artifactId>togglz-console</artifactId>
+            <version>2.5.0.Final</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.togglz</groupId>
+                    <artifactId>togglz-core</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
     </dependencies>
 
     <build>
