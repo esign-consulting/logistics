@@ -21,7 +21,7 @@ cache:
     - '$HOME/.sonar/cache'
 
 after_success:
-  - "curl -T logistics-ear/target/logistics-ear-1.0-SNAPSHOT.ear -u $FTP_USER:$FTP_PASSWORD ftp://esign.com.br/appservers/wildfly-10.0.0.Final/standalone/deployments/"
   - sudo docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
   - sudo docker push esignbr/logistics
+  - "curl -T logistics-ear/target/logistics-ear-1.0-SNAPSHOT.ear -u $FTP_USER:$FTP_PASSWORD ftp://esign.com.br/appservers/wildfly-10.0.0.Final/standalone/deployments/"
   
