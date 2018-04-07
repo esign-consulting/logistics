@@ -1,5 +1,5 @@
 language: java
-sudo: required
+sudo: false
 install: true
 
 services:
@@ -14,7 +14,7 @@ jdk:
 
 script:
   - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar
-  - docker build --tag=esignbr/logistics .
+  - sudo docker build --tag=esignbr/logistics .
 
 cache:
   directories:
@@ -22,7 +22,7 @@ cache:
     - '$HOME/.sonar/cache'
 
 after_success:
-  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-  - docker push esignbr/logistics
-  - "curl -T logistics-ear/target/logistics-ear-1.0-SNAPSHOT.ear -u $FTP_USER:$FTP_PASSWORD --ftp-ssl ftp://esign.com.br/appservers/wildfly-10.0.0.Final/standalone/deployments/"
+  - sudo docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+  - sudo docker push esignbr/logistics
+  - "curl -T logistics-ear/target/logistics-ear-1.0-SNAPSHOT.ear -u $FTP_USER:$FTP_PASSWORD ftp://esign.com.br/appservers/wildfly-10.0.0.Final/standalone/deployments/"
   
