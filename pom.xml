@@ -8,6 +8,29 @@
     <packaging>pom</packaging>
     
     <name>logistics</name>
+    <description>Demo application to create maps with routes in order to find out the best way to deliver products.</description>
+    <url>https://github.com/esign-consulting/logistics</url>
+    <inceptionYear>2015</inceptionYear>
+    
+    <issueManagement>
+        <url>https://github.com/esign-consulting/logistics/issues</url>
+        <system>GitHub Issues</system>
+    </issueManagement>
+    
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>https://opensource.org/licenses/MIT</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+    
+    <scm>
+        <url>https://github.com/esign-consulting/logistics</url>
+        <connection>scm:git:https://github.com/esign-consulting/logistics</connection>
+        <developerConnection>scm:git:https://github.com/esign-consulting/logistics</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
     
     <organization>
         <name>Esign Consulting</name>
@@ -18,13 +41,42 @@
         <developer>
             <email>gustavo@esign.com.br</email>
             <name>Gustavo Muniz do Carmo</name>
+            <url>https://github.com/gustavomcarmo</url>
+            <id>gustavomcarmo</id>
         </developer>
     </developers>
+    
+    <distributionManagement>
+        <repository>
+            <uniqueVersion>false</uniqueVersion>
+            <id>esignMavenRepo</id>
+            <name>Esign Maven Repository</name>
+            <url>ftp://esign.com.br/public_html/maven</url>
+            <layout>default</layout>
+        </repository>
+    </distributionManagement>
     
     <modules>
         <module>logistics-ejb</module>
         <module>logistics-web</module>
         <module>logistics-ear</module>
     </modules>
+    
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>2.8.2</version>
+            </plugin>
+        </plugins>
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-ftp</artifactId>
+                <version>3.0.0</version>
+            </extension>
+        </extensions>
+    </build>
     
 </project>
