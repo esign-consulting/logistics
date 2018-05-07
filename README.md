@@ -15,3 +15,12 @@ B | E | 50
 D | E | 30
 
 The best route is the cheapest one, considering the truck autonomy (Km/l) and the fuel price (l). Based on the routes above, if the truck has to go from **place A** to **place D**, its autonomy is **10 Km/l** and the litre of the fuel cost **$2.50**, the best route will be **A -> B -> D**, because it's the cheapest one: **$6.25**.
+
+## Quality
+
+The Logistics application has quality in its core. Beyond unit tests, several projects were developed in order to validate the whole solution. They are listed below, each with the type of test performed:
+
+* [logistics-test-arquillian](https://github.com/esign-consulting/logistics-test-arquillian) (Integration test)
+* [logistics-test-restassured](https://github.com/esign-consulting/logistics-test-restassured) (API test)
+* [logistics-test-selenium](https://github.com/esign-consulting/logistics-test-selenium) (UI test)
+* [logistics-test-jmeter](https://github.com/esign-consulting/logistics-test-jmeter) (Load test)
