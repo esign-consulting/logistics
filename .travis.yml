@@ -25,4 +25,4 @@ after_success:
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
   - docker push esignbr/logistics
   - "curl --verbose --progress-bar --ipv4 --connect-timeout 8 --max-time 120 --retry 128 --disable-epsv --ftp-pasv -T logistics-ear/target/logistics-ear-1.0-SNAPSHOT.ear -u $FTP_USER:$FTP_PASSWORD ftp://esign.com.br/appservers/wildfly-10.0.0.Final/standalone/deployments/"
-  - "cp .travis.settings.xml $HOME/.m2/settings.xml && mvn deploy -DskipTests=true"
+  - "cp .travis.settings.xml $HOME/.m2/settings.xml && mvn source:jar deploy -DskipTests=true"
