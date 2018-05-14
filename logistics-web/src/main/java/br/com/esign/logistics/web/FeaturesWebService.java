@@ -36,9 +36,9 @@ import javax.ws.rs.core.Response;
  *
  * @author gustavomunizdocarmo
  */
-@Path("maps")
+@Path("features")
 @Produces(MediaType.APPLICATION_JSON)
-public class TogglzWebService {
+public class FeaturesWebService {
 
     @GET
     public Response listFeatures() {
