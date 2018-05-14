@@ -12,26 +12,19 @@ addons:
 jdk:
   - oraclejdk8
 
+script:
+  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar
+  - docker build --tag=esignbr/logistics .
+
 cache:
   directories:
     - '$HOME/.m2/repository'
     - '$HOME/.sonar/cache'
 
-jobs:
-  include:
-    - stage: compile, test and analyse
-      script:
-        - mvn clean install sonar:sonar
-    - stage: docker build and push
-      script:
-        - docker build --tag=esignbr/logistics .
-        - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-        - docker push esignbr/logistics
-    - stage: artifacts deploy
-      script:
-        - curl --verbose --progress-bar --ipv4 --connect-timeout 8 --max-time 120 --retry 128 --disable-epsv --ftp-pasv -T logistics-ear/target/logistics-ear-1.0-SNAPSHOT.ear -u $FTP_USER:$FTP_PASSWORD ftp://esign.com.br/appservers/wildfly-10.0.0.Final/standalone/deployments/
-        - cp .travis.settings.xml $HOME/.m2/settings.xml && mvn source:jar deploy -DskipTests=true
-    - stage: trigger logistics-test-restassured
-      script:
-        - curl -LO --retry 3 https://raw.github.com/mernst/plume-lib/master/bin/trigger-travis.sh
-        - sh trigger-travis.sh esign-consulting logistics-test-restassured $TRAVIS_ACCESS_TOKEN
+after_success:
+  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+  - docker push esignbr/logistics
+  - curl --verbose --progress-bar --ipv4 --connect-timeout 8 --max-time 120 --retry 128 --disable-epsv --ftp-pasv -T logistics-ear/target/logistics-ear-1.0-SNAPSHOT.ear -u $FTP_USER:$FTP_PASSWORD ftp://esign.com.br/appservers/wildfly-10.0.0.Final/standalone/deployments/
+  - cp .travis.settings.xml $HOME/.m2/settings.xml && mvn source:jar deploy -DskipTests=true
+  - curl -LO --retry 3 https://raw.github.com/mernst/plume-lib/master/bin/trigger-travis.sh
+  - sh trigger-travis.sh esign-consulting logistics-test-restassured $TRAVIS_ACCESS_TOKEN
