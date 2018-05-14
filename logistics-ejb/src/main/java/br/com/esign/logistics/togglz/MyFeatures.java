@@ -11,10 +11,8 @@ import org.togglz.core.manager.FeatureManager;
 public enum MyFeatures implements Feature {
     
     @EnabledByDefault
-    @Label("First Feature")
-    FEATURE_ONE,
-    @Label("Second Feature")
-    FEATURE_TWO;
+    @Label("Multiple maps remove")
+    MULTI_MAPS_REMOVE;
     
     private static final Logger logger = Logger.getLogger(MyFeatures.class.getName());
     
