@@ -49,6 +49,7 @@ public class ApplicationConfig extends Application {
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(br.com.esign.logistics.web.RoutesMapWebService.class);
+        resources.add(br.com.esign.logistics.web.TogglzWebService.class);
     }
     
 }
