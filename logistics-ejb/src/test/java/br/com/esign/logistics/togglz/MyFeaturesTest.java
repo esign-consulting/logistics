@@ -21,26 +21,32 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package br.com.esign.logistics.web;
+package br.com.esign.logistics.togglz;
 
-import br.com.esign.logistics.togglz.MyFeatures;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import static br.com.esign.logistics.togglz.MyFeatures.values;
+import java.util.HashMap;
+import java.util.Map;
+import org.junit.Test;
+import static org.junit.Assert.*;
+import org.junit.Rule;
+import org.togglz.junit.TogglzRule;
 
 /**
  *
  * @author gustavomunizdocarmo
  */
-@Path("features")
-@Produces(MediaType.APPLICATION_JSON)
-public class FeaturesWebService {
+public class MyFeaturesTest {
 
-    @GET
-    public Response listFeatures() {
-        return Response.status(Response.Status.OK).entity(MyFeatures.features()).build();
+    @Rule
+    public TogglzRule togglzRule = TogglzRule.allDisabled(MyFeatures.class);
+
+    /**
+     * Test of features method, of class MyFeatures.
+     */
+    @Test
+    public void testFeatures() {
+        Map<String, Boolean> result = MyFeatures.features();
+        assertEquals(false, result.get(MyFeatures.values()[0].name()));
     }
 
 }

@@ -1,5 +1,7 @@
 package br.com.esign.logistics.togglz;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.togglz.core.Feature;
@@ -21,6 +23,14 @@ public enum MyFeatures implements Feature {
         boolean isActive = manager.isActive(this);
         logger.log(Level.INFO, "{0}.isActive = {1}", new Object[] {this, isActive});
         return isActive;
+    }
+    
+    public static Map<String, Boolean> features() {
+        Map<String, Boolean> features = new HashMap<>();
+        for (MyFeatures feature : values()) {
+            features.put(feature.name(), feature.isActive());
+        }
+        return features;
     }
 
 }
