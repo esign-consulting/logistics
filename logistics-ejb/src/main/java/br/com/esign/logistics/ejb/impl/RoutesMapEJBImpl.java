@@ -32,6 +32,7 @@ import br.com.esign.logistics.core.impl.RouteChooserImpl;
 import br.com.esign.logistics.dao.RoutesMapDAO;
 import br.com.esign.logistics.ejb.RoutesMapEJB;
 import br.com.esign.logistics.ejb.RoutesMapNotFoundException;
+import br.com.esign.logistics.togglz.MyFeatures;
 import com.github.slugify.Slugify;
 import java.util.List;
 import javax.ejb.EJB;
@@ -102,6 +103,16 @@ public class RoutesMapEJBImpl implements RoutesMapEJB {
             dao.removeRoutesMap(routesMap);
         } catch (Exception e) {
             throw new EJBException("Error on map removing.", e);
+        }
+    }
+    
+    @Override
+    public void removeRoutesMaps(String[] slugs) {
+        if (!MyFeatures.MULTI_MAPS_REMOVE.isActive()) {
+            throw new EJBException("Feature is not active.");
+        }
+        for (String slug : slugs) {
+            removeRoutesMap(slug);
         }
     }
 
