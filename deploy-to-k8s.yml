@@ -1,0 +1,78 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+  - name: Create the mongodb deployment
+    k8s_raw:
+      state: present
+      namespace: default
+      definition:
+        apiVersion: apps/v1beta1
+        kind: Deployment
+        metadata:
+          name: mongodb
+        spec:
+          replicas: 1
+          template:
+            metadata:
+              labels:
+                db: mongodb
+            spec:
+              containers:
+              - name: mongodb
+                image: mongo
+                ports:
+                - containerPort: 27017
+                  name: mongodb
+  - name: Create the mongodb service
+    k8s_raw:
+      state: present
+      namespace: default
+      definition:
+        apiVersion: v1
+        kind: Service
+        metadata:
+          name: mongodb
+        spec:
+          ports:
+          - port: 27017
+          selector:
+            db: mongodb
+  - name: Create the logistics deployment
+    k8s_raw:
+      state: present
+      namespace: default
+      definition:
+        apiVersion: apps/v1beta1
+        kind: Deployment
+        metadata:
+          name: logistics
+        spec:
+          replicas: 3
+          template:
+            metadata:
+              labels:
+                app: logistics
+            spec:
+              containers:
+              - name: logistics
+                image: esignbr/logistics
+                ports:
+                - containerPort: 8080
+  - name: Create the logistics service
+    k8s_raw:
+      state: present
+      namespace: default
+      definition:
+        apiVersion: v1
+        kind: Service
+        metadata:
+          name: logistics
+        spec:
+          type: LoadBalancer
+          ports:
+          - port: 80
+            targetPort: 8080
+          selector:
+            app: logistics
