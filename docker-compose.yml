@@ -2,13 +2,11 @@ version: "3"
 services:
   app:
     image: esignbr/logistics
-    container_name: "logistics"
+    container_name: logistics
     ports:
       - 8080:8080
-    links:
-      - mongodb
     depends_on:
       - mongodb
   mongodb:
     image: mongo
-    container_name: "mongodb"
+    container_name: mongodb
