@@ -25,4 +25,4 @@ cache:
 
 after_success:
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD" && docker push esignbr/logistics
-  - sshpass -p $FTP_PASSWORD sftp -o StrictHostKeyChecking=no -b sftp-commands $FTP_USER@esign.com.br
+  - sshpass -p $FTP_PASSWORD sftp -o StrictHostKeyChecking=no -o BatchMode=no -b sftp-commands $FTP_USER@esign.com.br
