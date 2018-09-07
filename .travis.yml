@@ -14,6 +14,9 @@ addons:
   sonarcloud:
     organization: "gustavomcarmo-github"
 
+install:
+  - gem install travis
+
 script:
   - mvn clean install sonar:sonar
   - docker build --tag=esignbr/logistics .
@@ -26,3 +29,6 @@ cache:
 after_success:
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD" && docker push esignbr/logistics
   - sshpass -p $FTP_PASSWORD sftp -o StrictHostKeyChecking=no -o BatchMode=no -b sftp-commands $FTP_USER@esign.com.br
+  - curl -LO https://raw.github.com/stephanmg/travis-dependent-builds/master/trigger.sh
+  - chmod +x trigger.sh
+  - ./trigger.sh esign-consulting logistics-test-restassured master $TRAVIS_GITHUB_TOKEN
