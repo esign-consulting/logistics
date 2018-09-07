@@ -1,16 +1,18 @@
+---
 language: java
-sudo: true
-install: true
+jdk:
+  - oraclejdk8
 
+sudo: required
 services:
   - docker
 
 addons:
+  apt:
+    packages:
+    - sshpass
   sonarcloud:
     organization: "gustavomcarmo-github"
-
-jdk:
-  - oraclejdk8
 
 script:
   - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar
@@ -22,14 +24,5 @@ cache:
     - '$HOME/.sonar/cache'
 
 after_success:
-  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-  - docker push esignbr/logistics
-  - sshpass -p $FTP_PASSWORD sftp -o StrictHostKeyChecking=no $FTP_USER@esign.com.br <<END
-      lcd logistics-ear/target
-      cd appservers/wildfly-10.0.0.Final/standalone/deployments
-      put logistics-ear-1.0-SNAPSHOT.ear
-      bye
-    END
-  - cp .travis.settings.xml $HOME/.m2/settings.xml && mvn source:jar deploy -DskipTests=true
-  - curl -LO --retry 3 https://raw.github.com/mernst/plume-lib/master/bin/trigger-travis.sh
-  - sh trigger-travis.sh esign-consulting logistics-test-restassured $TRAVIS_ACCESS_TOKEN
+  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD" && docker push esignbr/logistics
+  - sshpass -p $FTP_PASSWORD sftp -o StrictHostKeyChecking=no -b sftp-commands $FTP_USER@esign.com.br
