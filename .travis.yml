@@ -32,3 +32,4 @@ after_success:
   - curl -LO https://raw.github.com/stephanmg/travis-dependent-builds/master/trigger.sh
   - chmod +x trigger.sh
   - ./trigger.sh esign-consulting logistics-test-restassured master $TRAVIS_GITHUB_TOKEN
+  - ./trigger.sh esign-consulting logistics-test-selenium master $TRAVIS_GITHUB_TOKEN
