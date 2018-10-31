@@ -1,0 +1,28 @@
+---
+- hosts: "{{ target | default('default') }}"
+  roles:
+    - codeyourinfra.docker_compose
+  tasks:
+    - name: Install required packages
+      apt:
+        name: "{{ item }}"
+        update_cache: yes
+      loop:
+        - language-pack-pt
+        - python3-pip
+    - name: Install required python packages
+      pip:
+        name: "{{ item }}"
+      loop:
+        - docker
+        - docker-compose
+    - name: Copy required files
+      copy:
+        src: "{{ item.src }}"
+        dest: "{{ item.dest }}"
+      loop:
+        - {src: "docker-compose.yml", dest: "."}
+    - name: Set up the Docker services
+      docker_service:
+        project_name: logistics
+        project_src: .
