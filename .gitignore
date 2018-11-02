@@ -1,6 +1,9 @@
-/logistics-ejb/target/
-/logistics-web/target/
-/logistics-ear/target/
-/logistics-ejb/nbproject/
-/logistics-ejb/nbactions.xml
-/logistics-web/nbactions.xml
+**/target/
+**/nbactions.xml
+**/.classpath
+**/.project
+**/.settings/
+.vagrant/
+.vscode/
+roles/
+ubuntu-bionic-18.04-cloudimg-console.log
