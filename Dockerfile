@@ -1,4 +1,4 @@
-FROM jboss/wildfly
+FROM jboss/wildfly:12.0.0.Final
 LABEL maintainer "Gustavo Muniz do Carmo <gustavo@esign.com.br>"
 
 ADD standalone.xml /opt/jboss/wildfly/standalone/configuration/
