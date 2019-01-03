@@ -9,7 +9,7 @@ node {
         sh "'${mvnHome}/bin/mvn' clean install -Dmaven.test.skip=true"
     }
     stage('Unit Tests') {
-        sh "'${mvnHome}/bin/mvn' test"
+        sh "'${mvnHome}/bin/mvn' test -DargLine='-Djdk.net.URLClassPath.disableClassPathURLCheck=true'"
     }
     stage('SonarQube') {
         withSonarQubeEnv('SonarQube') {
