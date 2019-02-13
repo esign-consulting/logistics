@@ -27,8 +27,14 @@ Project | Test type | Build status
 [logistics-test-selenium](https://github.com/esign-consulting/logistics-test-selenium) | UI test | [![Build status](https://travis-ci.org/esign-consulting/logistics-test-selenium.svg?branch=master)](https://travis-ci.org/esign-consulting/logistics-test-selenium)
 [logistics-test-jmeter](https://github.com/esign-consulting/logistics-test-jmeter) | Load test | [![Build status](https://travis-ci.org/esign-consulting/logistics-test-jmeter.svg?branch=master)](https://travis-ci.org/esign-consulting/logistics-test-jmeter)
 
+## The pipeline
+
+Each push to this repository triggers the pipeline below:
+
+![Logistics' pipeline](http://www.esign.com.br/logistics.png)
+
 ## Execution
 
-The Logistics application can be executed along with MongoDB by using [Docker Compose](https://docs.docker.com/compose). After cloning the repository, just run `docker-compose up -d` and then open the URL http://localhost:8080/logistics in your browser.
+The Logistics application can be executed along with MongoDB by using [Docker Compose](https://docs.docker.com/compose). After cloning the repository, just run `docker-compose up -d` and then open the URL <http://localhost:8080/logistics> in your browser.
 
-Alternatively, you can deploy both the application and the database to a VM of your choice, by using the [Ansible playbook](playbook.yml). If you want to know how it works, first install [Ansible](https://www.ansible.com) and [Vagrant](https://www.vagrantup.com), and then run `vagrant up`. Vagrant will bootstrap a local VM and will trigger the Ansible playbook execution. Once the local VM is up, open the URL http://192.168.33.10:8080/logistics in your browser.
+Alternatively, you can deploy both the application and the database to a VM of your choice, by using the [Ansible playbook](playbook.yml). If you want to know how it works, first install [Ansible](https://www.ansible.com), [VirtualBox](https://www.virtualbox.org) and [Vagrant](https://www.vagrantup.com), and then run `vagrant up`. Vagrant will bootstrap a local VM and will trigger the Ansible playbook execution. Once the local VM is up, open the URL <http://192.168.33.10:8080/logistics> in your browser.
