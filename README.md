@@ -38,3 +38,7 @@ Each push to this repository triggers the pipeline below:
 The Logistics application can be executed along with MongoDB by using [Docker Compose](https://docs.docker.com/compose). After cloning the repository, just run `docker-compose up -d` and then open the URL <http://localhost:8080/logistics> in your browser.
 
 Alternatively, you can deploy both the application and the database to a VM of your choice, by using the [Ansible playbook](playbook.yml). If you want to know how it works, first install [Ansible](https://www.ansible.com), [VirtualBox](https://www.virtualbox.org) and [Vagrant](https://www.vagrantup.com), and then run `vagrant up`. Vagrant will bootstrap a local VM and will trigger the Ansible playbook execution. Once the local VM is up, open the URL <http://192.168.33.10:8080/logistics> in your browser.
+
+## To do
+
+Deployment to Cloud providers.
