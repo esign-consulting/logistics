@@ -1,7 +1,9 @@
 ---
 - hosts: "{{ target | default('default') }}"
+
   roles:
     - codeyourinfra.docker_compose
+
   tasks:
     - name: Install required packages
       apt:
@@ -10,18 +12,33 @@
       loop:
         - language-pack-pt
         - python3-pip
+
     - name: Install required python packages
       pip:
         name: "{{ item }}"
       loop:
         - docker
         - docker-compose
+
+    - name: Build the Logistics application (requires Maven)
+      shell: mvn clean install
+      delegate_to: localhost
+
     - name: Copy required files
       copy:
-        src: "{{ item.src }}"
-        dest: "{{ item.dest }}"
+        src: "{{ item }}"
+        dest: .
       loop:
-        - {src: "docker-compose.yml", dest: "."}
+        - logistics-ear
+        - standalone.xml
+        - Dockerfile
+        - docker-compose.yml
+
+    - name: Build the Logistics Docker image
+      docker_image:
+        name: esignbr/logistics
+        path: .
+
     - name: Set up the Docker services
       docker_service:
         project_name: logistics
