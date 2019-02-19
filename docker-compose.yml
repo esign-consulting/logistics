@@ -5,6 +5,7 @@ services:
     container_name: logistics
     ports:
       - 8080:8080
+      - 9990:9990
     environment:
       - MONGODB_URI=mongodb://mongodb/logistics
     depends_on:
