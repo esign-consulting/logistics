@@ -13,7 +13,6 @@ Vagrant.configure("2") do |config|
     config.vm.provision "ansible" do |ansible|
       ansible.galaxy_role_file = "requirements.yml"
       ansible.playbook = "playbook.yml"
-      ansible.become = true
       ansible.host_vars = {
         "default" => {"ansible_python_interpreter" => "/usr/bin/python3"}
       }
