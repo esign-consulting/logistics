@@ -6,7 +6,7 @@ node {
         mvnHome = tool 'M3'
     }
     stage('Build and Unit Tests') {
-        sh "'${mvnHome}/bin/mvn' clean install -DargLine='-Djdk.net.URLClassPath.disableClassPathURLCheck=true'"
+        sh "'${mvnHome}/bin/mvn' clean install"
     }
     stage('Static Code Analysis') {
         withSonarQubeEnv('SonarQube') {
