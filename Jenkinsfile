@@ -17,7 +17,7 @@ node {
         }
     }
     stage('Deploy Java Artifacts') {
-        withCredentials([string(credentialsId: 'ossrh', variable: 'OSSRH_USER'), usernamePassword(credentialsId: 'ossrh', variable: 'OSSRH_PASSWORD')]) {
+        withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'ossrh', usernameVariable: 'OSSRH_USER', passwordVariable: 'OSSRH_PASSWORD']]) {
             sh "'${mvnHome}/bin/mvn' -s .travis.settings.xml source:jar deploy -DskipTests=true"
         }
     }
