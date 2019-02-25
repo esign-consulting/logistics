@@ -6,14 +6,19 @@ node {
         mvnHome = tool 'M3'
     }
     stage('Build') {
-        sh "'${mvnHome}/bin/mvn' clean install -Dmaven.test.skip=true"
+        sh "'${mvnHome}/bin/mvn' clean install -DskipTests=true"
     }
     stage('Unit Tests') {
         sh "'${mvnHome}/bin/mvn' test -DargLine='-Djdk.net.URLClassPath.disableClassPathURLCheck=true'"
     }
-    stage('SonarQube') {
+    stage('Static Code Analysis') {
         withSonarQubeEnv('SonarQube') {
             sh "'${mvnHome}/bin/mvn' sonar:sonar"
+        }
+    }
+    stage('Deploy Java Artifacts') {
+        withCredentials([string(credentialsId: 'ossrh', variable: 'OSSRH_USER'), usernamePassword(credentialsId: 'ossrh', variable: 'OSSRH_PASSWORD')]) {
+            sh "'${mvnHome}/bin/mvn' -s .travis.settings.xml source:jar deploy -DskipTests=true"
         }
     }
     stage('Build Docker Image') {
