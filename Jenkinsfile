@@ -5,11 +5,8 @@ node {
         git 'https://github.com/esign-consulting/logistics.git'
         mvnHome = tool 'M3'
     }
-    stage('Build') {
-        sh "'${mvnHome}/bin/mvn' clean install -DskipTests=true"
-    }
-    stage('Unit Tests') {
-        sh "'${mvnHome}/bin/mvn' org.jacoco:jacoco-maven-plugin:prepare-agent test org.jacoco:jacoco-maven-plugin:report -DargLine='-Djdk.net.URLClassPath.disableClassPathURLCheck=true'"
+    stage('Build and Unit Tests') {
+        sh "'${mvnHome}/bin/mvn' clean install -DargLine='-Djdk.net.URLClassPath.disableClassPathURLCheck=true'"
     }
     stage('Static Code Analysis') {
         withSonarQubeEnv('SonarQube') {
