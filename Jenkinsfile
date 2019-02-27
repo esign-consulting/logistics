@@ -26,6 +26,17 @@ node {
             appDockerImage.push()
         }
     }
+    stage('Deploy Logistics to esign.com.br') {
+        withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'esign.com.br', usernameVariable: 'ESIGN_USER', passwordVariable: 'ESIGN_PASSWORD']]) {
+            def remote = [:]
+            remote.name = "deploy-logistics"
+            remote.host = "esign.com.br"
+            remote.user = "${env.ESIGN_USER}"
+            remote.password = "${env.ESIGN_PASSWORD}"
+            remote.allowAnyHosts = true
+            sshPut remote: remote, from: 'logistics-ear/target/logistics-ear-1.0-SNAPSHOT.ear', into: 'appservers/wildfly-10.0.0.Final/standalone/deployments'
+        }
+    }
     stage('Results') {
         junit '**/target/surefire-reports/TEST-*.xml'
         archiveArtifacts '**/target/logistics-*.*ar'
