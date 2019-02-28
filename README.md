@@ -26,6 +26,8 @@ Project | Test type | Build status
 [logistics-test-selenium](https://github.com/esign-consulting/logistics-test-selenium) | UI test | [![Build status](https://travis-ci.org/esign-consulting/logistics-test-selenium.svg?branch=master)](https://travis-ci.org/esign-consulting/logistics-test-selenium)
 [logistics-test-jmeter](https://github.com/esign-consulting/logistics-test-jmeter) | Load test | [![Build status](https://travis-ci.org/esign-consulting/logistics-test-jmeter.svg?branch=master)](https://travis-ci.org/esign-consulting/logistics-test-jmeter)
 
+![Logistics' tests](http://www.esign.com.br/logistics-tests.png)
+
 ## The pipeline
 
 Each push to this repository triggers the pipeline below:
