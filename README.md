@@ -32,7 +32,14 @@ Project | Test type | Build status
 
 Each push to this repository triggers the pipeline below:
 
-![Logistics' pipeline](http://www.esign.com.br/logistics.png)
+1. Travis CI clones this GitHub repository;
+2. After compiling and performing several unit tests in the application source code, Maven triggers the SonarQube static code analisys, and the results are sent to [SonarCloud](https://sonarcloud.io);
+3. Once generated the Java artifacts, they are deployed to [Sonatype OSSRH](https://oss.sonatype.org), a Nexus Repository Manager instance Sonatype uses to provide repository hosting service to open source projects binaries;
+4. After building the Logistics Docker image, it is pushed to [Docker Hub](https://hub.docker.com);
+5. The application EAR file is deployed in a Wildfly instance avaliable at [esign.com.br](http://www.esign.com.br). From there, the Logistics application connects to a MongoDB instance maintained by [mLab](https://mlab.com);
+6. Several tests are triggered asynchronously. Each one is performed against the Wildfly instance where the latest version of application was deployed.
+
+![Logistics' pipeline](http://www.esign.com.br/logistics-pipeline.png)
 
 ## Execution
 
