@@ -6,4 +6,5 @@
 .vagrant/
 .vscode/
 roles/
-ubuntu-bionic-18.04-cloudimg-console.log
+*.log
+*.pem

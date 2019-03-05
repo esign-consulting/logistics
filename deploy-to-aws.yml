@@ -1,0 +1,81 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: false
+
+  vars:
+    aws_region: eu-west-2
+    aws_security_group: logistics-sg
+    aws_key: logistics-aws-key
+    aws_instance: logistics
+
+  tasks:
+    - name: Get the VPCs
+      ec2_vpc_net_facts:
+        region: "{{ aws_region }}"
+      register: ec2_vpc_net_facts_result
+
+    - name: Create the security group using the default VPC
+      ec2_group:
+        region: "{{ aws_region }}"
+        vpc_id: "{{ default_vpc.id }}"
+        name: "{{ aws_security_group }}"
+        description: Security group of the Logistics application
+        rules:
+          - proto: tcp
+            ports:
+              - 22
+              - 8080
+            cidr_ip: 0.0.0.0/0
+      vars:
+        default_vpc: "{{ (ec2_vpc_net_facts_result | json_query('vpcs[?is_default]'))[0] }}"
+      register: ec2_group_result
+
+    - name: Get the default VPC's subnets
+      ec2_vpc_subnet_facts:
+        region: "{{ aws_region }}"
+        filters:
+          vpc-id: "{{ ec2_group_result.vpc_id }}"
+      register: ec2_vpc_subnet_facts_result
+
+    - name: Create the Logistics application's key pairs
+      ec2_key:
+        region: "{{ aws_region }}"
+        name: "{{ aws_key }}"
+      register: ec2_key_result
+
+    - name: Store the Logistics application's private key
+      copy:
+        content: "{{ ec2_key_result.key.private_key }}"
+        dest: "{{ aws_key }}.pem"
+        mode: 0400
+      when: ec2_key_result.key.private_key is defined
+
+    - name: Find Canonical Ubuntu Server 18.04 LTS AMIs
+      ec2_ami_facts:
+        region: "{{ aws_region }}"
+        owners: 099720109477
+        filters:
+          name: "ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-amd64-server-*"
+      register: ec2_ami_facts_result
+
+    - name: Create the Logistics application's EC2 instance
+      ec2:
+        region: "{{ aws_region }}"
+        group: "{{ aws_security_group }}"
+        vpc_subnet_id: "{{ aws_vpc_subnet.subnet_id }}"
+        image: "{{ aws_ubuntu_ami.image_id }}"
+        key_name: "{{ aws_key }}"
+        instance_type: t2.micro
+        instance_tags:
+          instance: "{{ aws_instance }}"
+        exact_count: 1
+        count_tag:
+          instance: "{{ aws_instance }}"
+        assign_public_ip: true
+        wait: true
+      vars:
+        aws_vpc_subnet: "{{ (ec2_vpc_subnet_facts_result.subnets | sort(attribute='availability_zone'))[0] }}"
+        aws_ubuntu_ami: "{{ (ec2_ami_facts_result.images | sort(attribute='name', reverse=True))[0] }}"
+      when: ec2_ami_facts_result.images | length > 0
+      register: ec2_result
