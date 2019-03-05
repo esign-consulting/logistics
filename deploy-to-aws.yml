@@ -68,10 +68,10 @@
         key_name: "{{ aws_key }}"
         instance_type: t2.micro
         instance_tags:
-          instance: "{{ aws_instance }}"
+          Name: "{{ aws_instance }}"
         exact_count: 1
         count_tag:
-          instance: "{{ aws_instance }}"
+          Name: "{{ aws_instance }}"
         assign_public_ip: true
         wait: true
       vars:
