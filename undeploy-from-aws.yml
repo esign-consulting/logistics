@@ -15,6 +15,7 @@
         region: "{{ aws_region }}"
         filters:
           "tag:Name": "{{ aws_instance }}"
+          instance-state-name: running
       register: ec2_instance_facts_result
 
     - name: Terminate the Logistics application's EC2 instance
