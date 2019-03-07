@@ -1,0 +1,43 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: false
+
+  vars:
+    aws_region: eu-west-2
+    aws_security_group: logistics-sg
+    aws_key: logistics-aws-key
+    aws_instance: logistics
+
+  tasks:
+    - name: Gather facts about the Logistics application's EC2 instance
+      ec2_instance_facts:
+        region: "{{ aws_region }}"
+        filters:
+          "tag:Name": "{{ aws_instance }}"
+      register: ec2_instance_facts_result
+
+    - name: Terminate the Logistics application's EC2 instance
+      ec2:
+        region: "{{ aws_region }}"
+        instance_ids: "{{ ec2_instance_facts_result.instances[0].instance_id }}"
+        state: absent
+        wait: true
+      when: ec2_instance_facts_result.instances | length > 0
+
+    - name: Remove the Logistics application's private key
+      file:
+        path: "{{ aws_key }}.pem"
+        state: absent
+
+    - name: Remove the Logistics application's key pairs
+      ec2_key:
+        region: "{{ aws_region }}"
+        name: "{{ aws_key }}"
+        state: absent
+
+    - name: Remove the security group
+      ec2_group:
+        region: "{{ aws_region }}"
+        name: "{{ aws_security_group }}"
+        state: absent
