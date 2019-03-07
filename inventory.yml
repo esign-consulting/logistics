@@ -4,3 +4,16 @@ all:
     localhost:
       ansible_connection: local
       ansible_python_interpreter: "{{ ansible_playbook_python }}"
+  children:
+    logistics:
+      hosts:
+        default:
+          ansible_host: 192.168.33.10
+          ansible_user: vagrant
+          ansible_ssh_private_key_file: .vagrant/machines/default/virtualbox/private_key
+        aws:
+          ansible_host: 0.0.0.0
+          ansible_user: ubuntu
+          ansible_ssh_private_key_file: logistics-aws-key.pem
+      vars:
+        ansible_python_interpreter: python3

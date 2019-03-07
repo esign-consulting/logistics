@@ -80,13 +80,21 @@
       when: ec2_vpc_subnet_facts_result.subnets | length > 0 and ec2_ami_facts_result.images | length > 0
       register: ec2_result
 
+    - name: Replace the Logistics application's public IP address in the inventory
+      lineinfile:
+        path: inventory.yml
+        regexp: '^(\s*)ansible_host: \b(?:[0-9]{1,3}\.){3}[0-9]{1,3}\b$'
+        insertafter: '^\s*aws:$'
+        line: '\1ansible_host: {{ ec2_result.instances[0].public_ip }}'
+        backrefs: true
+
     - name: Add the Logistics application's EC2 instance to the ansible-playbook in-memory inventory
       add_host:
         groups: logistics-ec2
         hostname: "{{ ec2_result.instances[0].public_ip }}"
         ansible_user: ubuntu
         ansible_ssh_private_key_file: "{{ aws_key }}.pem"
-        ansible_python_interpreter: /usr/bin/python3
+        ansible_python_interpreter: python3
 
     - name: Wait for SSH
       wait_for:
