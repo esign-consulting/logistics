@@ -10,6 +10,10 @@
     aws_instance: logistics
 
   tasks:
+    - name: Install boto3
+      pip:
+        name: boto3
+
     - name: Get the VPCs
       ec2_vpc_net_facts:
         region: "{{ aws_region }}"
