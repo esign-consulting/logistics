@@ -2,7 +2,13 @@ node {
     def mvnHome
     def appDockerImage
     stage('Preparation') {
-        git 'https://github.com/esign-consulting/logistics.git'
+        checkout([
+            $class: 'GitSCM',
+            branches: scm.branches,
+            doGenerateSubmoduleConfigurations: true,
+            extensions: scm.extensions + [[$class: 'SubmoduleOption', parentCredentials: true]],
+            userRemoteConfigs: scm.userRemoteConfigs
+        ])
         mvnHome = tool 'M3'
     }
     stage('Build and Unit Tests') {
