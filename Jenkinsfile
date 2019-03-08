@@ -34,6 +34,7 @@ node {
     }
     stage('Deploy Logistics to AWS') {
         withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws', accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
+            sh "ansible-galaxy install codeyourinfra.docker_compose"
             ansiblePlaybook(playbook: 'deploy-to-aws.yml')
         }
     }
