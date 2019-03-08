@@ -32,6 +32,11 @@ node {
             appDockerImage.push()
         }
     }
+    stage('Deploy Logistics to AWS') {
+        withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws', accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
+            ansiblePlaybook(playbook: 'deploy-to-aws.yml')
+        }
+    }
     stage('Deploy Logistics to esign.com.br') {
         withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'esign.com.br', usernameVariable: 'ESIGN_USER', passwordVariable: 'ESIGN_PASSWORD']]) {
             def remote = [:]
