@@ -102,6 +102,7 @@
         ansible_user: ubuntu
         ansible_ssh_private_key_file: "{{ aws_key }}.pem"
         ansible_python_interpreter: python3
+        ansible_become: true
 
     - name: Wait for SSH
       wait_for:
