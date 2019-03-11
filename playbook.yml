@@ -3,7 +3,6 @@
 
   roles:
     - role: codeyourinfra.docker_compose
-      become: true
 
   tasks:
     - name: Install required packages
@@ -13,7 +12,6 @@
       loop:
         - language-pack-pt
         - python3-pip
-      become: true
 
     - name: Install required python packages
       pip:
@@ -21,30 +19,13 @@
       loop:
         - docker
         - docker-compose
-      become: true
 
-    - name: Build the Logistics application locally (requires Maven)
-      shell: mvn clean install
-      delegate_to: localhost
-
-    - name: Copy required files
+    - name: Copy docker-compose.yml
       copy:
-        src: "{{ item }}"
+        src: docker-compose.yml
         dest: .
-      loop:
-        - logistics-ear
-        - standalone.xml
-        - Dockerfile
-        - docker-compose.yml
-
-    - name: Build the Logistics Docker image
-      docker_image:
-        name: esignbr/logistics
-        path: .
-      become: true
 
     - name: Set up the Docker services
       docker_service:
         project_name: logistics
         project_src: .
-      become: true
