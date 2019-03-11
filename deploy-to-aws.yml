@@ -16,7 +16,6 @@
       loop:
         - boto
         - boto3
-        - jmespath
 
     - name: Get the VPCs
       ec2_vpc_net_facts:
