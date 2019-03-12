@@ -50,6 +50,7 @@ node {
     stage('Undeploy Logistics fom AWS') {
         withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws', accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
             ansiblePlaybook(playbook: 'undeploy-from-aws.yml')
+        }
     }
     stage('Deploy Logistics to esign.com.br') {
         withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'esign.com.br', usernameVariable: 'ESIGN_USER', passwordVariable: 'ESIGN_PASSWORD']]) {
