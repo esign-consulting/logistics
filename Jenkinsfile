@@ -38,7 +38,7 @@ node {
             sh "ansible-galaxy install codeyourinfra.docker_compose"
             ansiblePlaybook(playbook: 'deploy-to-aws.yml')
             publicIp = sh(
-                script: "awk '/aws:/ {getline; print $0}' inventory.yml | grep -oE '([0-9]{1,3}\.){3}[0-9]{1,3}'",
+                script: "awk '/aws:/ {getline; print}' inventory.yml | grep -oE '([0-9]{1,3}\.){3}[0-9]{1,3}'",
                 returnStdout: true,
             )
         }
