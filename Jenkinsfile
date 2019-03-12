@@ -44,7 +44,7 @@ node {
         }
     }
     stage('API Tests') {
-        sh "'${mvnHome}/bin/mvn' -f test-restassured -Dserver.host=http://${publicIp}"
+        sh "'${mvnHome}/bin/mvn' -f test-restassured test -Dserver.host=http://${publicIp}"
     }
     stage('Deploy Logistics to esign.com.br') {
         withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'esign.com.br', usernameVariable: 'ESIGN_USER', passwordVariable: 'ESIGN_PASSWORD']]) {
