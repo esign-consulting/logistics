@@ -6,8 +6,9 @@ node {
         checkout([
             $class: 'GitSCM',
             branches: scm.branches,
-            doGenerateSubmoduleConfigurations: true,
-            extensions: scm.extensions + [[$class: 'SubmoduleOption', parentCredentials: true]],
+            doGenerateSubmoduleConfigurations: false,
+            extensions: scm.extensions + [[$class: 'SubmoduleOption', parentCredentials: true, recursiveSubmodules: true]],
+            submoduleCfg: [],
             userRemoteConfigs: scm.userRemoteConfigs
         ])
         mvnHome = tool 'M3'
