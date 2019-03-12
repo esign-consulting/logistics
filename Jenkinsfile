@@ -1,6 +1,7 @@
 node {
     def mvnHome
     def appDockerImage
+    def publicIp
     stage('Preparation') {
         checkout([
             $class: 'GitSCM',
@@ -36,7 +37,14 @@ node {
         withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws', accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
             sh "ansible-galaxy install codeyourinfra.docker_compose"
             ansiblePlaybook(playbook: 'deploy-to-aws.yml')
+            publicIp = sh(
+                script: "awk '/aws:/ {getline; print $0}' inventory.yml | grep -oE '([0-9]{1,3}\.){3}[0-9]{1,3}'",
+                returnStdout: true,
+            )
         }
+    }
+    stage('API Tests') {
+        sh "'${mvnHome}/bin/mvn' -f test-restassured -Dserver.host=http://${publicIp}"
     }
     stage('Deploy Logistics to esign.com.br') {
         withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'esign.com.br', usernameVariable: 'ESIGN_USER', passwordVariable: 'ESIGN_PASSWORD']]) {
