@@ -45,10 +45,11 @@ node {
         }
     }
     stage('Several tests against the EC2 instance') {
-        parallel {
+        parallel 'API Tests': {
             stage('API Tests') {
                 sh "'${mvnHome}/bin/mvn' -f test-restassured test -Dserver.port=8080 -Dserver.host=http://${publicIp}"
             }
+        }, 'Integration Tests': {
             stage('Integration Tests') {
                 sh "'${mvnHome}/bin/mvn' -f test-arquillian test -Dhost=${publicIp}"
             }
