@@ -44,8 +44,12 @@ node {
             )
         }
     }
-    stage('Several tests against the EC2 instance') {
-        parallel 'API Tests': {
+    stage('Tests against AWS') {
+        parallel 'UI Tests': {
+            stage('UI Tests') {
+                sh "'${mvnHome}/bin/mvn' -f test-selenium test -Dwebdriver.gecko.driver=/usr/bin/geckodriver/geckodriver -Dheadless=true -Dpage.url=http://${publicIp}:8080/logistics"
+            }
+        }, 'API Tests': {
             stage('API Tests') {
                 sh "'${mvnHome}/bin/mvn' -f test-restassured test -Dserver.port=8080 -Dserver.host=http://${publicIp}"
             }
