@@ -47,7 +47,7 @@ node {
     stage('Tests against AWS') {
         parallel 'UI Tests': {
             stage('UI Tests') {
-                sh "'${mvnHome}/bin/mvn' -f test-selenium test -Dwebdriver.gecko.driver=/usr/local/bin/geckodriver -Dheadless=true -Dpage.url=http://${publicIp}:8080/logistics"
+                sh "'${mvnHome}/bin/mvn' -f test-selenium test -Dwebdriver.gecko.driver=/usr/local/bin/geckodriver -Dheadless=true -Dpage.url='http://${publicIp}:8080/logistics'"
             }
         }, 'API Tests': {
             stage('API Tests') {
