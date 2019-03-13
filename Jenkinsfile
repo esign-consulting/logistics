@@ -44,8 +44,15 @@ node {
             )
         }
     }
-    stage('API Tests') {
-        sh "'${mvnHome}/bin/mvn' -f test-restassured test -Dserver.port=8080 -Dserver.host=http://${publicIp}"
+    stage('Several tests against the EC2 instance') {
+        parallel {
+            stage('API Tests') {
+                sh "'${mvnHome}/bin/mvn' -f test-restassured test -Dserver.port=8080 -Dserver.host=http://${publicIp}"
+            }
+            stage('Integration Tests') {
+                sh "'${mvnHome}/bin/mvn' -f test-arquillian test -Dhost=${publicIp}"
+            }
+        }
     }
     stage('Undeploy Logistics fom AWS') {
         withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws', accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
