@@ -41,7 +41,7 @@ node {
             publicIp = sh(
                 script: "awk '/aws:/ {getline; print}' inventory.yml | grep -oE '([0-9]{1,3}\\.){3}[0-9]{1,3}'",
                 returnStdout: true,
-            )
+            ).trim()
         }
     }
     stage('Tests against AWS') {
