@@ -2,7 +2,7 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
-    config.vm.box = "ubuntu/bionic64"
+    config.vm.box = "codeyourinfra/docker"
     config.vm.network "private_network", ip: "192.168.33.10"
     config.vm.synced_folder ".", "/vagrant", SharedFoldersEnableSymlinksCreate: false
   
@@ -11,7 +11,6 @@ Vagrant.configure("2") do |config|
     end
   
     config.vm.provision "ansible" do |ansible|
-      ansible.galaxy_role_file = "requirements.yml"
       ansible.playbook = "playbook.yml"
       ansible.inventory_path = "inventory.yml"
     end
