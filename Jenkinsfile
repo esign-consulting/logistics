@@ -61,6 +61,7 @@ node {
             }
         }
     } catch (e) {
+        slackSend(channel: 'builds', message: 'One or more tests failed in AWS', color: 'warning')
         throw e
     } finally {
         stage('Undeploy Logistics from AWS') {
@@ -83,5 +84,6 @@ node {
     stage('Results') {
         junit '**/target/surefire-reports/TEST-*.xml'
         archiveArtifacts '**/target/logistics-*.*ar'
+        slackSend(channel: 'builds', message: 'Logistics pipeline succeed!', color: 'good')
     }
 }
