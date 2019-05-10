@@ -15,7 +15,7 @@ D | E | 30
 
 The best route is the cheapest one, considering the truck autonomy (Km/l) and the fuel price (l). Based on the routes above, if the truck has to go from **place A** to **place D**, its autonomy is **10 Km/l** and the litre of the fuel cost **$2.50**, the best route will be **A -> B -> D**, because it's the cheapest one: **$6.25**.
 
-## Quality
+## Quality Assurance
 
 The Logistics application has quality in its core. Beyond unit tests, the following projects were developed in order to validate the whole solution:
 
@@ -28,7 +28,7 @@ Project | Test type | Build status
 
 ![Logistics' tests](http://www.esign.com.br/logistics-tests.png)
 
-## The pipeline
+## The CI/CD Pipeline
 
 Each push to this repository triggers the pipeline below:
 
@@ -41,14 +41,30 @@ Each push to this repository triggers the pipeline below:
 
 ![Logistics' pipeline](http://www.esign.com.br/logistics-pipeline.png)
 
-## Execution
+## Running with Docker
 
-You can run the application as a [Docker](https://www.docker.com) container. Install [Docker](https://docs.docker.com/install) and then run `docker run --name logistics -p 8080:8080 -e MONGODB_URI=mongodb://username:password@host:port/logistics -d esignbr/logistics`. The environment variable **MONGODB_URI** is mandatory and must set the [MongoDB connection URI](https://docs.mongodb.com/manual/reference/connection-string). Remember to replace *username* and *password* with your MongoDB credentials as well as *host* and *port* with the appropriate values, according with where your MongoDB instance is avaliable on.
+You can run the application as a [Docker](https://www.docker.com) container. Install [Docker](https://docs.docker.com/install) and then run:
 
-The Logistics application can also be executed along with MongoDB by using [Docker Compose](https://docs.docker.com/compose). If you've already installed [Docker](https://docs.docker.com/install) and [Docker Compose](https://docs.docker.com/compose/install), clone the repository and then run `docker-compose up -d`. The application will be available through the URL <http://localhost:8080/logistics> in your browser.
+`docker run --name logistics -p 8080:8080 -e MONGODB_URI=mongodb://username:password@host:port/logistics -d esignbr/logistics`
 
-Alternatively, you can deploy both the application and the database to a VM of your choice, by using the [Ansible playbook](playbook.yml). If you want to know how it works, first install [Ansible](https://www.ansible.com), [VirtualBox](https://www.virtualbox.org) and [Vagrant](https://www.vagrantup.com), and then run `vagrant up`. Vagrant will bootstrap a local VM and will trigger the Ansible playbook execution. Once the local VM is up, open the URL <http://192.168.33.10:8080/logistics> in your browser.
+The environment variable **MONGODB_URI** is mandatory and must set the [MongoDB connection URI](https://docs.mongodb.com/manual/reference/connection-string). Remember to replace *username* and *password* with your MongoDB credentials as well as *host* and *port* with the appropriate values, according with where your MongoDB instance is avaliable on.
 
-## To do
+The Logistics application can also be executed along with MongoDB by using [Docker Compose](https://docs.docker.com/compose). If you've already installed [Docker](https://docs.docker.com/install) and [Docker Compose](https://docs.docker.com/compose/install), clone the repository and then run:
 
-Deployment to Cloud providers.
+`docker-compose up -d`
+
+The application will be available through the URL <http://localhost:8080/logistics> in your browser.
+
+## Deploying to a local VM
+
+Alternatively, you can deploy both the application and the database to a local VM, by using the [Ansible playbook](playbook.yml). If you want to know how it works, first install [Ansible](https://www.ansible.com), [VirtualBox](https://www.virtualbox.org) and [Vagrant](https://www.vagrantup.com), and then run:
+
+`vagrant up`
+
+Vagrant will download the [codeyourinfra](https://app.vagrantup.com/codeyourinfra)/[docker](https://app.vagrantup.com/codeyourinfra/boxes/docker) [Vagrant box](https://www.vagrantup.com/docs/boxes.html) (if it was not done yet), then will bootstrap the local VM and at the end will trigger the Ansible playbook execution.
+
+Once the local VM is up, open the URL <http://192.168.33.10:8080/logistics> in your browser.
+
+## Deploying to AWS
+
+TO DO
