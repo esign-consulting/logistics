@@ -8,7 +8,7 @@
         dest: .
 
     - name: Set up the Docker services
-      docker_service:
+      docker_compose:
         project_name: logistics
         project_src: .
 
