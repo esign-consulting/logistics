@@ -4,7 +4,7 @@
 Vagrant.configure("2") do |config|
     config.vm.box = "codeyourinfra/docker"
     config.vm.network "private_network", ip: "192.168.33.10"
-    config.vm.synced_folder ".", "/vagrant", SharedFoldersEnableSymlinksCreate: false
+    config.vm.synced_folder ".", "/vagrant", disabled: true
   
     config.vm.provider "virtualbox" do |vb|
       vb.memory = "2048"
