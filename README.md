@@ -62,7 +62,11 @@ Alternatively, you can deploy both the application and the database to a local V
 
 Vagrant will download the [codeyourinfra](https://app.vagrantup.com/codeyourinfra)/[docker](https://app.vagrantup.com/codeyourinfra/boxes/docker) [Vagrant box](https://www.vagrantup.com/docs/boxes.html) (if it was not done yet), then will bootstrap the local VM and at the end will trigger the Ansible playbook execution.
 
-Once the local VM is up, open the URL <http://192.168.33.10:8080/logistics> in your browser.
+Once the local VM is up, open the URL <http://192.168.33.10:8080/logistics> in your browser, and give the Logistics application a try.
+
+Finally, if you want to cleanup everything, execute the command:
+
+`vagrant destroy -f && rm -rf .vagrant/`
 
 ## Deploying to AWS
 
