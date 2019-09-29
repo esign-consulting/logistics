@@ -1,6 +1,6 @@
 # Logistics
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Build status](https://travis-ci.org/esign-consulting/logistics.svg?branch=master)](https://travis-ci.org/esign-consulting/logistics) [![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=br.com.esign%3Alogistics&metric=alert_status)](https://sonarcloud.io/dashboard/index/br.com.esign:logistics) [![Docker Pulls](https://img.shields.io/docker/pulls/esignbr/logistics.svg)](https://hub.docker.com/r/esignbr/logistics) [![Demo Application](https://img.shields.io/website-up-down-green-red/http/www.esign.com.br/logistics.svg?label=demo)](http://www.esign.com.br/logistics)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Build status](https://travis-ci.org/esign-consulting/logistics.svg?branch=master)](https://travis-ci.org/esign-consulting/logistics) [![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=br.com.esign%3Alogistics&metric=alert_status)](https://sonarcloud.io/dashboard/index/br.com.esign:logistics) [![Docker Build status](https://img.shields.io/docker/cloud/build/esignbr/logistics.svg)](https://hub.docker.com/r/esignbr/logistics/builds) [![Docker Pulls](https://img.shields.io/docker/pulls/esignbr/logistics.svg)](https://hub.docker.com/r/esignbr/logistics) [![Demo Application](https://img.shields.io/website-up-down-green-red/http/www.esign.com.br/logistics.svg?label=demo)](http://www.esign.com.br/logistics)
 
 The goal of the Logistcs application is find out the best route between two places within a map. Once created, add routes to the map, as following:
 
@@ -26,7 +26,7 @@ Project | Test type | Build status
 [logistics-test-selenium](https://github.com/esign-consulting/logistics-test-selenium) | UI test | [![Build status](https://travis-ci.org/esign-consulting/logistics-test-selenium.svg?branch=master)](https://travis-ci.org/esign-consulting/logistics-test-selenium)
 [logistics-test-jmeter](https://github.com/esign-consulting/logistics-test-jmeter) | Load test | [![Build status](https://travis-ci.org/esign-consulting/logistics-test-jmeter.svg?branch=master)](https://travis-ci.org/esign-consulting/logistics-test-jmeter)
 
-![Logistics' tests](http://www.esign.com.br/logistics-tests.png)
+![Logistics' tests](logistics-tests.png)
 
 ## The CI/CD Pipeline
 
@@ -35,11 +35,10 @@ Each push to this repository triggers the pipeline below:
 1. Travis CI clones this GitHub repository;
 2. After compiling and performing several unit tests in the application source code, Maven triggers the SonarQube static code analisys, and the results are sent to [SonarCloud](https://sonarcloud.io);
 3. Once generated the Java artifacts, they are deployed to [Sonatype OSSRH](https://oss.sonatype.org), a Nexus Repository Manager instance Sonatype uses to provide repository hosting service to open source projects binaries;
-4. After building the Logistics Docker image, it is pushed to [Docker Hub](https://hub.docker.com);
-5. The application EAR file is deployed in a Wildfly instance avaliable at [esign.com.br](http://www.esign.com.br). From there, the Logistics application connects to a MongoDB instance maintained by [mLab](https://mlab.com);
-6. Several tests are triggered asynchronously. Each one is performed against the Wildfly instance where the latest version of application was deployed.
+4. The application EAR file is deployed in a Wildfly instance avaliable at [esign.com.br](http://www.esign.com.br). From there, the Logistics application connects to a MongoDB instance maintained by [mLab](https://mlab.com);
+5. Several tests are triggered asynchronously. Each one is performed against the Wildfly instance where the latest version of application was deployed.
 
-![Logistics' pipeline](http://www.esign.com.br/logistics-pipeline.png)
+![Logistics' pipeline](logistics-pipeline.png)
 
 ## Running with Docker
 
