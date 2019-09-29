@@ -26,7 +26,7 @@ Project | Test type | Build status
 [logistics-test-selenium](https://github.com/esign-consulting/logistics-test-selenium) | UI test | [![Build status](https://travis-ci.org/esign-consulting/logistics-test-selenium.svg?branch=master)](https://travis-ci.org/esign-consulting/logistics-test-selenium)
 [logistics-test-jmeter](https://github.com/esign-consulting/logistics-test-jmeter) | Load test | [![Build status](https://travis-ci.org/esign-consulting/logistics-test-jmeter.svg?branch=master)](https://travis-ci.org/esign-consulting/logistics-test-jmeter)
 
-![Logistics' tests](logistics-tests.png)
+![Logistics' tests](https://raw.githubusercontent.com/esign-consulting/logistics/master/logistics-tests.png)
 
 ## The CI/CD Pipeline
 
@@ -38,7 +38,7 @@ Each push to this repository triggers the pipeline below:
 4. The application EAR file is deployed in a Wildfly instance avaliable at [esign.com.br](http://www.esign.com.br). From there, the Logistics application connects to a MongoDB instance maintained by [mLab](https://mlab.com);
 5. Several tests are triggered asynchronously. Each one is performed against the Wildfly instance where the latest version of application was deployed.
 
-![Logistics' pipeline](logistics-pipeline.png)
+![Logistics' pipeline](https://raw.githubusercontent.com/esign-consulting/logistics/master/logistics-pipeline.png)
 
 ## Running with Docker
 
