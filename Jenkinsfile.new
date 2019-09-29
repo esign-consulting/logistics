@@ -1,0 +1,15 @@
+node {
+    stage('Preparation') {
+        git 'https://github.com/esign-consulting/logistics.git'
+    }
+    docker.image('maven:3-jdk-8-alpine').inside('-v $HOME/.m2:/root/.m2 --net myjenkins_default') {
+        stage('Build') {
+            sh 'mvn install'
+        }
+        stage('Static Code Analysis') {
+            withSonarQubeEnv('SonarQube') {
+                sh 'mvn sonar:sonar'
+            }
+        }
+    }
+}
