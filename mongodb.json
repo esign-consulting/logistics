@@ -1,0 +1,39 @@
+{
+    "id": "/mongodb",
+    "instances": 1,
+    "cpus": 1,
+    "mem": 1024,
+    "container": {
+        "type": "DOCKER",
+        "docker": {
+            "image": "mongo"
+        },
+        "portMappings": [
+            {
+                "containerPort": 27017,
+                "hostPort": 0,
+                "labels": {
+                    "VIP_0": "/mongodb:27017"
+                }
+            }
+        ]
+    },
+    "healthChecks": [
+        {
+            "gracePeriodSeconds": 300,
+            "intervalSeconds": 60,
+            "maxConsecutiveFailures": 5,
+            "timeoutSeconds": 20,
+            "delaySeconds": 15,
+            "protocol": "COMMAND",
+            "command": {
+                "value": "mongo --quiet \"$(hostname --ip-address || echo '127.0.0.1')/test\" --eval 'quit(db.runCommand({ ping: 1 }).ok ? 0 : 2)'"
+            }
+        }
+    ],
+    "networks": [
+        {
+            "mode": "container/bridge"
+        }
+    ]
+}

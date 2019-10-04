@@ -1,0 +1,26 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: false
+
+  tasks:
+    - name: Get the Mesosphere DC/OS cluster URL
+      shell: dcos config show core.dcos_url
+      register: dcos_url
+
+    - name: Get the Mesosphere DC/OS cluster authentication token
+      shell: dcos config show core.dcos_acs_token
+      register: dcos_acs_token
+
+    - name: Deploy service
+      uri:
+        url: "{{ dcos_url.stdout }}/service/marathon/v2/apps"
+        method: POST
+        body_format: json
+        body: "{{ lookup('file', item + '.json') }}"
+        headers:
+          Authorization: "Bearer {{ dcos_acs_token.stdout }}"
+        status_code: 201, 409
+      loop:
+        - mongodb
+        - logistics
