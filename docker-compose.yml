@@ -1,5 +1,6 @@
-version: "3"
+version: "2.4"
 services:
+
   app:
     image: esignbr/logistics
     container_name: logistics
@@ -9,7 +10,14 @@ services:
     environment:
       - MONGODB_URI=mongodb://mongodb/logistics
     depends_on:
-      - mongodb
+      mongodb:
+        condition: service_healthy
+
   mongodb:
     image: mongo
     container_name: mongodb
+    healthcheck:
+      test: ["CMD-SHELL", "mongo --quiet 127.0.0.1/test --eval 'quit(db.runCommand({ ping: 1 }).ok ? 0 : 2)'"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
