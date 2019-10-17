@@ -14,13 +14,10 @@
 
     - name: Deploy service
       uri:
-        url: "{{ dcos_url.stdout }}/service/marathon/v2/apps"
+        url: "{{ dcos_url.stdout }}/service/marathon/v2/groups"
         method: POST
         body_format: json
-        body: "{{ lookup('file', item + '.json') }}"
+        body: "{{ lookup('file', 'logistics.json') }}"
         headers:
           Authorization: "Bearer {{ dcos_acs_token.stdout }}"
         status_code: 201, 409
-      loop:
-        - mongodb
-        - logistics
