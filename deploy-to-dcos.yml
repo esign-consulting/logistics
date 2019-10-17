@@ -19,5 +19,5 @@
         body_format: json
         body: "{{ lookup('file', 'logistics.json') }}"
         headers:
-          Authorization: "Bearer {{ dcos_acs_token.stdout }}"
+          Authorization: "token={{ dcos_acs_token.stdout }}"
         status_code: 201, 409
