@@ -22,7 +22,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
 -->
-<html ng-app="logistics">
+<html lang="en" ng-app="logistics">
     <head>
         <title>Logistics</title>
         <meta charset="UTF-8">
@@ -50,12 +50,13 @@
                 <accordion close-others="true">
                     <accordion-group ng-repeat="map in maps | orderBy:'name'" heading="{{map.name}}">
                         <table class="table table-striped">
+                            <caption>{{map.name}} routes</caption>
                             <thead>
                                 <tr>
-                                    <th>Origin</th>
-                                    <th>Destination</th>
-                                    <th>Distance (Km)</th>
-                                    <th>Remove</th>
+                                    <th scope="col">Origin</th scope="col">
+                                    <th scope="col">Destination</th scope="col">
+                                    <th scope="col">Distance (Km)</th scope="col">
+                                    <th scope="col">Remove</th scope="col">
                                 </tr>
                             </thead>
                             <tbody>
@@ -201,4 +202,4 @@
             
         </div>
     </body>
-</html>
+</html lang="en">
