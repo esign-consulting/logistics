@@ -114,4 +114,4 @@
 
 - import_playbook: playbook.yml
   vars:
-    target: logistics-ec2
+    target: logistics_ec2
