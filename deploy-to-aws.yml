@@ -18,9 +18,9 @@
         - boto3
 
     - name: Get the VPCs
-      ec2_vpc_net_facts:
+      ec2_vpc_net_info:
         region: "{{ aws_region }}"
-      register: ec2_vpc_net_facts_result
+      register: ec2_vpc_net_info_result
 
     - name: Create the security group using the default VPC
       ec2_group:
@@ -36,15 +36,15 @@
               - 9990
             cidr_ip: 0.0.0.0/0
       vars:
-        default_vpc: "{{ (ec2_vpc_net_facts_result | json_query('vpcs[?is_default]'))[0] }}"
+        default_vpc: "{{ (ec2_vpc_net_info_result | json_query('vpcs[?is_default]'))[0] }}"
       register: ec2_group_result
 
     - name: Get the default VPC's subnets
-      ec2_vpc_subnet_facts:
+      ec2_vpc_subnet_info:
         region: "{{ aws_region }}"
         filters:
           vpc-id: "{{ ec2_group_result.vpc_id }}"
-      register: ec2_vpc_subnet_facts_result
+      register: ec2_vpc_subnet_info_result
 
     - name: Create the Logistics application's key pairs
       ec2_key:
@@ -60,19 +60,19 @@
       when: ec2_key_result.key.private_key is defined
 
     - name: Find Codeyourinfra Docker AMI
-      ec2_ami_facts:
+      ec2_ami_info:
         region: "{{ aws_region }}"
         owners: 334305766942
         filters:
           name: "codeyourinfra/docker"
-      register: ec2_ami_facts_result
+      register: ec2_ami_info_result
 
     - name: Create the Logistics application's EC2 instance
       ec2:
         region: "{{ aws_region }}"
         group: "{{ aws_security_group }}"
         vpc_subnet_id: "{{ aws_vpc_subnet.subnet_id }}"
-        image: "{{ ec2_ami_facts_result.images[0].image_id }}"
+        image: "{{ ec2_ami_info_result.images[0].image_id }}"
         key_name: "{{ aws_key }}"
         instance_type: t2.micro
         instance_tags:
@@ -83,8 +83,8 @@
         assign_public_ip: true
         wait: true
       vars:
-        aws_vpc_subnet: "{{ (ec2_vpc_subnet_facts_result.subnets | sort(attribute='availability_zone'))[0] }}"
-      when: ec2_vpc_subnet_facts_result.subnets | length > 0 and ec2_ami_facts_result.images | length > 0
+        aws_vpc_subnet: "{{ (ec2_vpc_subnet_info_result.subnets | sort(attribute='availability_zone'))[0] }}"
+      when: ec2_vpc_subnet_info_result.subnets | length > 0 and ec2_ami_info_result.images | length > 0
       register: ec2_result
 
     - name: Replace the Logistics application's public IP address in the inventory
@@ -97,7 +97,7 @@
 
     - name: Add the Logistics application's EC2 instance to the ansible-playbook in-memory inventory
       add_host:
-        groups: logistics-ec2
+        groups: logistics_ec2
         hostname: "{{ ec2_result.instances[0].public_ip }}"
         ansible_user: ubuntu
         ansible_ssh_private_key_file: "{{ aws_key }}.pem"
