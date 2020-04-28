@@ -36,7 +36,6 @@ node {
     }
     stage('Deploy Logistics to AWS') {
         withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws', accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
-            //sh "~/.local/bin/ansible-galaxy install codeyourinfra.docker_compose"
             ansiblePlaybook(installation: 'Ansible', playbook: 'deploy-to-aws.yml')
             publicIp = sh(
                 script: "awk '/aws:/ {getline; print}' inventory.yml | grep -oE '([0-9]{1,3}\\.){3}[0-9]{1,3}'",
