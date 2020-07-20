@@ -23,6 +23,8 @@
  */
 package br.com.esign.logistics.web;
 
+import io.swagger.jaxrs.config.BeanConfig;
+
 import java.util.Set;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
@@ -34,6 +36,15 @@ import javax.ws.rs.core.Application;
 @ApplicationPath("/api")
 public class ApplicationConfig extends Application {
     
+    public ApplicationConfig() {
+        BeanConfig beanConfig = new BeanConfig();
+        beanConfig.setVersion("1.0.0");
+        beanConfig.setTitle("Logistics API");
+        beanConfig.setBasePath("/logistics/api");
+        beanConfig.setResourcePackage("br.com.esign.logistics.web");
+        beanConfig.setScan(true);
+    }
+
     @Override
     public Set<Class<?>> getClasses() {
         Set<Class<?>> resources = new java.util.HashSet<>();
@@ -50,6 +61,8 @@ public class ApplicationConfig extends Application {
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(br.com.esign.logistics.web.FeaturesWebService.class);
         resources.add(br.com.esign.logistics.web.RoutesMapWebService.class);
+        resources.add(io.swagger.jaxrs.listing.ApiListingResource.class);
+        resources.add(io.swagger.jaxrs.listing.SwaggerSerializers.class);
     }
     
 }
