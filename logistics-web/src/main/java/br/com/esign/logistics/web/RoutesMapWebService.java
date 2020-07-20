@@ -31,6 +31,8 @@ import br.com.esign.logistics.web.resource.SelfLink;
 import br.com.esign.logistics.core.RoutesMap;
 import br.com.esign.logistics.ejb.RoutesMapEJB;
 import br.com.esign.logistics.web.resource.RouteResource;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Optional;
@@ -60,6 +62,7 @@ import javax.ws.rs.core.UriInfo;
  */
 @Path("maps")
 @Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
+@Api(tags={"logistics"})
 public class RoutesMapWebService {
     
     private static final Logger logger = Logger.getLogger(RoutesMapWebService.class.getName());
@@ -74,6 +77,7 @@ public class RoutesMapWebService {
     UriInfo uriInfo;
     
     @GET
+    @ApiOperation(value="List all maps")
     public Response listRoutesMaps() {
         try {
             return getResponseStatusOK(ejb.listRoutesMaps().stream().map(map -> getRoutesMapResource(map, uriInfo.getAbsolutePathBuilder().path(map.getSlug()))).collect(Collectors.toList()));
@@ -85,6 +89,7 @@ public class RoutesMapWebService {
     
     @GET
     @Path("{slug}")
+    @ApiOperation(value="Get a map")
     public Response getRoutesMap(@PathParam("slug") String slug) {
         try {
             RoutesMap map = ejb.getRoutesMapBySlug(slug);
@@ -101,6 +106,7 @@ public class RoutesMapWebService {
     
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
+    @ApiOperation(value="Create a map")
     public Response createRoutesMap(RoutesMap routesMap) {
         try {
             RoutesMap newRoutesMap = ejb.createRoutesMap(routesMap);
@@ -113,6 +119,7 @@ public class RoutesMapWebService {
     
     @DELETE
     @Path("{slug}")
+    @ApiOperation(value="Delete a map")
     public Response removeRoutesMap(@PathParam("slug") String slug) {
         try {
             ejb.removeRoutesMap(slug);
@@ -125,6 +132,7 @@ public class RoutesMapWebService {
     
     @GET
     @Path("{slug}/routes")
+    @ApiOperation(value="List all routes of a map")
     public Response listRoutesByMap(@PathParam("slug") String slug) {
         try {
             RoutesMap map = ejb.getRoutesMapBySlug(slug);
@@ -142,6 +150,7 @@ public class RoutesMapWebService {
     @POST
     @Path("{slug}/routes")
     @Consumes(MediaType.APPLICATION_JSON)
+    @ApiOperation(value="Add a route into a map")
     public Response addRouteToMap(@PathParam("slug") String slug, Route route) {
         try {
             Route[] routes = ejb.addRouteToMap(slug, route);
@@ -158,6 +167,7 @@ public class RoutesMapWebService {
     
     @GET
     @Path("{mapSlug}/routes/{routeSlug}")
+    @ApiOperation(value="Get a route of a map")
     public Response getRouteByMap(@PathParam("mapSlug") String mapSlug, @PathParam("routeSlug") String routeSlug) {
         try {
             RoutesMap map = ejb.getRoutesMapBySlug(mapSlug);
@@ -179,6 +189,7 @@ public class RoutesMapWebService {
     
     @DELETE
     @Path("{mapSlug}/routes/{routeSlug}")
+    @ApiOperation(value="Remove a route from a map")
     public Response removeRouteFromMap(@PathParam("mapSlug") String mapSlug, @PathParam("routeSlug") String routeSlug) {
         try {
             RoutesMap map = ejb.getRoutesMapBySlug(mapSlug);
@@ -201,6 +212,7 @@ public class RoutesMapWebService {
     
     @GET
     @Path("{mapSlug}/bestRoute")
+    @ApiOperation(value="Get the best route")
     public Response getBestRoute(@PathParam("mapSlug") String mapSlug,
             @QueryParam("originName") String originName,
             @QueryParam("destinationName") String destinationName,

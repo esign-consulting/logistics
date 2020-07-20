@@ -79,3 +79,7 @@ Ansible uses [Boto 3](https://github.com/boto/boto3) in its [Amazon modules](htt
 Right after the deployment, check the output to find out what is the EC2 instance public IP address. You can get the IP from the *inventory.yml* file as well. Then, open the Logistics' URL in your browser, replacing the IP with the one you've just got. Finally, if you want to undo everything, just run:
 
 `ansible-playbook undeploy-from-aws.yml`
+
+## Logistics API
+
+The Logistics API documentation is generated through [Swagger](https://swagger.io) and can be checked by accessing the `/logistics/docs` endpoint, after deploying the application. In the [Esign Consulting website](http://www.esign.com.br), for example, the Logistics API documentation is available on <http://www.esign.com.br/logistics/docs>.
