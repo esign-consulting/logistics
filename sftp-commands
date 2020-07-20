@@ -1,4 +1,4 @@
 lcd logistics-ear/target
-cd appservers/wildfly-10.0.0.Final/standalone/deployments
+cd appservers/wildfly-12.0.0.Final/standalone/deployments
 put logistics-ear-1.0-SNAPSHOT.ear
 bye
