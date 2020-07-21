@@ -16,7 +16,7 @@ public class EJBSingletonFeatureManagerProvider implements FeatureManagerProvide
     public FeatureManager getFeatureManager() {
         try {
             InitialContext context = new InitialContext();
-            FeatureManagerSingleton singleton = (FeatureManagerSingleton) context.lookup("java:app/logistics-ejb-1.0-SNAPSHOT/FeatureManagerSingleton");
+            FeatureManagerSingleton singleton = (FeatureManagerSingleton) context.lookup("java:app/br.com.esign-logistics-ejb-1.0-SNAPSHOT/FeatureManagerSingleton");
             return singleton.getFeatureManager();
         } catch (NamingException e) {
             return null;

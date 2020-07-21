@@ -83,3 +83,7 @@ Right after the deployment, check the output to find out what is the EC2 instanc
 ## Logistics API
 
 The Logistics API documentation is generated through [Swagger](https://swagger.io) and can be checked by accessing the `/logistics/docs` endpoint, after deploying the application. In the [Esign Consulting website](http://www.esign.com.br), for example, the Logistics API documentation is available on <http://www.esign.com.br/logistics/docs>.
+
+## Feature toggles
+
+The Logistics application has a [feature toggles](https://www.martinfowler.com/articles/feature-toggles.html) admin console that comes with [Togglz](https://www.togglz.org). The console can be accessed through the `/logistics/togglz` endpoint, after deploying the application. In the [Esign Consulting website](http://www.esign.com.br), for example, the Logistics Feature Flags console is available on <http://www.esign.com.br/logistics/togglz>.
