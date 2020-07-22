@@ -13,8 +13,8 @@ import org.togglz.core.manager.FeatureManager;
 public enum MyFeatures implements Feature {
     
     @EnabledByDefault
-    @Label("Multiple maps remove")
-    MULTI_MAPS_REMOVE;
+    @Label("All maps removal")
+    ALL_MAPS_REMOVAL;
     
     private static final Logger logger = Logger.getLogger(MyFeatures.class.getName());
     

@@ -41,7 +41,7 @@ public interface RoutesMapEJB {
     
     public void removeRoutesMap(String slug);
     
-    public void removeRoutesMaps(String[] slugs);
+    public void removeAllRoutesMaps();
     
     public Route[] addRouteToMap(String slug, Route route);
     

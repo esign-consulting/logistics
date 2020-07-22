@@ -43,6 +43,8 @@ public interface RoutesMapDAO {
     public void saveRoutesMap(RoutesMap routesMap);
     
     public void removeRoutesMap(RoutesMap routesMap);
+
+    public void removeAllRoutesMaps();
     
     public void addPlaceToMap(RoutesMap routesMap, Place place);
     

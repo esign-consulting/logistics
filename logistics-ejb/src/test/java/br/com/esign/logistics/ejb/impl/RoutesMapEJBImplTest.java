@@ -103,22 +103,6 @@ public class RoutesMapEJBImplTest {
     }
     
     /**
-     * Test of removeRoutesMaps method, of class RoutesMapEJBImpl.
-     */
-    @Test
-    public void testRemoveRoutesMaps() {
-        final String MAP1 = "MAP1", SLUG1 = "map1";
-        final String MAP2 = "MAP2", SLUG2 = "map2";
-        RoutesMap routesMap1 = new RoutesMap(MAP1);
-        RoutesMap routesMap2 = new RoutesMap(MAP2);
-        Mockito.when(dao.getRoutesMapBySlug(SLUG1)).thenReturn(routesMap1);
-        Mockito.when(dao.getRoutesMapBySlug(SLUG2)).thenReturn(routesMap2);
-        Mockito.doNothing().when(dao).removeRoutesMap(routesMap1);
-        Mockito.doNothing().when(dao).removeRoutesMap(routesMap2);
-        ejb.removeRoutesMaps(new String[] {SLUG1, SLUG2});
-    }
-
-    /**
      * Test of addRouteToMap method, of class RoutesMapEJBImpl.
      */
     @Test

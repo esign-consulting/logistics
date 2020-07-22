@@ -56,7 +56,7 @@ public class RoutesMapDAOImplAdapter implements RoutesMapDAO {
 
     @Override
     public RoutesMap getRoutesMapByName(String name) {
-        return  dao.getRoutesMapByName(name);
+        return dao.getRoutesMapByName(name);
     }
     
     @Override
@@ -72,6 +72,11 @@ public class RoutesMapDAOImplAdapter implements RoutesMapDAO {
     @Override
     public void removeRoutesMap(RoutesMap routesMap) {
         dao.removeRoutesMap(routesMap);
+    }
+
+    @Override
+    public void removeAllRoutesMaps() {
+        dao.removeAllRoutesMaps();
     }
     
     @Override

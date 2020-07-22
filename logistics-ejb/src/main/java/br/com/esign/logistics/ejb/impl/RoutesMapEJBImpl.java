@@ -107,12 +107,14 @@ public class RoutesMapEJBImpl implements RoutesMapEJB {
     }
     
     @Override
-    public void removeRoutesMaps(String[] slugs) {
-        if (!MyFeatures.MULTI_MAPS_REMOVE.isActive()) {
+    public void removeAllRoutesMaps() {
+        if (!MyFeatures.ALL_MAPS_REMOVAL.isActive()) {
             throw new EJBException("Feature is not active.");
         }
-        for (String slug : slugs) {
-            removeRoutesMap(slug);
+        try {
+            dao.removeAllRoutesMaps();
+        } catch (Exception e) {
+            throw new EJBException("Error on all maps removing.", e);
         }
     }
 
