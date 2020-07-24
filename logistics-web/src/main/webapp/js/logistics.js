@@ -37,7 +37,12 @@ angular.module('logistics', ['ui.bootstrap'])
                     $scope.alerts.push({msg: 'There are no maps. Please add the first one.'});
                 }
             }, error);
-        
+
+        $http.get('api/features')
+            .then(function(response) {
+                $scope.features = response.data;
+            }, error);
+
         $scope.closeAlert = function(index) {
             $scope.alerts.splice(index, 1);
         };
@@ -92,6 +97,28 @@ angular.module('logistics', ['ui.bootstrap'])
             
         };
         
+        $scope.removeAllMaps = function() {
+            
+            var modalInstance = $modal.open({
+                animation: true,
+                templateUrl: 'removeAllMapsModal.html',
+                controller: 'RemoveAllMapsModalController'
+            });
+            
+            modalInstance.result.then(function() {
+                
+                $scope.alerts = [];
+                
+                $http.delete('api/maps')
+                    .then(function(response) {
+                        $scope.alerts.push({type: 'success', msg: 'All maps were successfully removed.'});
+                        $scope.maps = [];
+                    }, error);
+                
+            });
+            
+        };
+
         $scope.openAddRouteModal = function(map) {
             
             var modalInstance = $modal.open({
@@ -225,6 +252,19 @@ angular.module('logistics')
         
         $scope.yes = function() {
             $modalInstance.close(map);
+        };
+        
+        $scope.no = function() {
+            $modalInstance.dismiss('cancel');
+        };
+        
+    });
+
+angular.module('logistics')
+    .controller('RemoveAllMapsModalController', function ($scope, $modalInstance) {
+        
+        $scope.yes = function() {
+            $modalInstance.close();
         };
         
         $scope.no = function() {

@@ -78,6 +78,7 @@
                     </accordion-group>
                 </accordion>
                 <button name="addMapButton" class='btn btn-default' ng-click="openAddMapModal()">Add Map</button>
+                <button name="removeAllMapsButton" class='btn btn-default' ng-if="maps.length > 1 && features.ALL_MAPS_REMOVAL" ng-click="removeAllMaps()">Remove All Maps</button>
             </div>
             
             <script type="text/ng-template" id="addMapModal.html">
@@ -113,6 +114,28 @@
                 <div class="modal-footer">
                     <button name="removeMapYesButton" class="btn btn-primary" ng-click="yes()">Yes</button>
                     <button name="removeMapNoButton" class="btn btn-warning" ng-click="no()">No</button>
+                </div>
+            </script>
+            
+            <script type="text/ng-template" id="removeAllMapsModal.html">
+                <div class="modal-header">
+                    <h3 class="modal-title">Remove All Maps</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="row text-left">
+                        <div class="col-md-12">
+                            Are you sure of removing all maps?
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 20px;">
+                        <div class="col-md-12">
+                            <alert type="danger">This cannot be undone.</alert>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button name="removeAllMapsYesButton" class="btn btn-primary" ng-click="yes()">Yes</button>
+                    <button name="removeAllMapsNoButton" class="btn btn-warning" ng-click="no()">No</button>
                 </div>
             </script>
             

@@ -119,10 +119,22 @@ public class RoutesMapWebService {
     
     @DELETE
     @Path("{slug}")
-    @ApiOperation(value="Delete a map")
+    @ApiOperation(value="Remove a map")
     public Response removeRoutesMap(@PathParam("slug") String slug) {
         try {
             ejb.removeRoutesMap(slug);
+            return getResponseStatusOK(null);
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, e.getMessage(), e);
+            return getResponseStatusNotOK(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());
+        }
+    }
+
+    @DELETE
+    @ApiOperation(value="Remove all maps")
+    public Response removeAllMaps() {
+        try {
+            ejb.removeAllRoutesMaps();
             return getResponseStatusOK(null);
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.getMessage(), e);
