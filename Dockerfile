@@ -1,4 +1,4 @@
-FROM maven:3-jdk-8-alpine AS builder
+FROM maven:3-jdk-11-slim AS builder
 WORKDIR /logistics
 COPY pom.xml .
 COPY logistics-ear ./logistics-ear
