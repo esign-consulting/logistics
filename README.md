@@ -28,6 +28,18 @@ Project | Test type | Build status
 
 ![Logistics' tests](https://raw.githubusercontent.com/esign-consulting/logistics/master/logistics-tests.png)
 
+### Static code analysis
+
+The application code quality is evaluated with [SonarQube](https://www.sonarqube.org). If you want to run the [SonarScanner for Maven](https://docs.sonarqube.org/latest/analysis/scan/sonarscanner-for-maven) in order to take a look at the [static code analisys](https://en.wikipedia.org/wiki/Static_program_analysis)' results, firstly execute (requires [Docker](https://www.docker.com)):
+
+`docker run --name sonarqube -p 9000:9000 -d sonarqube:8.4.1-community`
+
+And then, execute (requires [JDK 11](https://openjdk.java.net/projects/jdk/11) and [Maven](https://maven.apache.org)):
+
+`mvn clean install sonar:sonar`
+
+After running the analysis, the Logistics application dashboard will be available in <http://localhost:9000/dashboard?id=br.com.esign%3Alogistics>.
+
 ## The CI/CD Pipeline
 
 Each push to this repository triggers the pipeline below:
