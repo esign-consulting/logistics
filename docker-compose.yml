@@ -2,6 +2,7 @@ version: "2.4"
 services:
 
   app:
+    build: .
     image: esignbr/logistics
     container_name: logistics
     ports:
