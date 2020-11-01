@@ -29,25 +29,23 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
-import org.mongodb.morphia.annotations.Embedded;
-import org.mongodb.morphia.annotations.Entity;
-import org.mongodb.morphia.annotations.Id;
-import org.mongodb.morphia.annotations.Indexed;
+import dev.morphia.annotations.Embedded;
+import dev.morphia.annotations.Entity;
+import dev.morphia.annotations.Id;
+import dev.morphia.annotations.Indexed;
 
 /**
  * Class that represents a map where there are places and routes between them.
  * @author gustavomunizdocarmo
  */
-@Entity(value = "routesMap", noClassnameStored = true)
+@Entity("routesMap")
 public class RoutesMap implements Comparable<RoutesMap> {
     
     @Id
     private final String name;
     
-    @Embedded
     private final Set<Place> places = new HashSet<>();
     
-    @Embedded
     private final Set<Route> routes = new HashSet<>();
     
     @Indexed

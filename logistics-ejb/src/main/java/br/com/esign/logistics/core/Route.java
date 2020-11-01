@@ -30,8 +30,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Objects;
-import org.mongodb.morphia.annotations.Embedded;
-import org.mongodb.morphia.annotations.Transient;
+import dev.morphia.annotations.Embedded;
+import dev.morphia.annotations.Transient;
 
 /**
  * 
@@ -42,10 +42,8 @@ public class Route implements Comparable<Route>, Iterable<Route> {
     
     private String name;
     
-    @Embedded
     private Place origin;
     
-    @Embedded
     private Place destination;
     
     private double distance;

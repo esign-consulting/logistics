@@ -70,8 +70,8 @@ public class RoutesMapDAOImplAdapter implements RoutesMapDAO {
     }
     
     @Override
-    public void removeRoutesMap(RoutesMap routesMap) {
-        dao.removeRoutesMap(routesMap);
+    public void removeRoutesMap(String name) {
+        dao.removeRoutesMap(name);
     }
 
     @Override
@@ -80,18 +80,18 @@ public class RoutesMapDAOImplAdapter implements RoutesMapDAO {
     }
     
     @Override
-    public void addPlaceToMap(RoutesMap routesMap, Place place) {
-        dao.addPlaceToMap(routesMap, place);
+    public void addPlaceToMap(String name, Place place) {
+        dao.addPlaceToMap(name, place);
     }
 
     @Override
-    public void addRouteToMap(RoutesMap routesMap, Route route) {
-        dao.addRouteToMap(routesMap, route);
+    public void addRouteToMap(String name, Route route) {
+        dao.addRouteToMap(name, route);
     }
     
     @Override
-    public void removeRouteFromMap(RoutesMap routesMap, Route route) {
-        dao.removeRouteFromMap(routesMap, route);
+    public void removeRouteFromMap(String name, Route route) {
+        dao.removeRouteFromMap(name, route);
     }
     
     public RoutesMapDAO getDao() {

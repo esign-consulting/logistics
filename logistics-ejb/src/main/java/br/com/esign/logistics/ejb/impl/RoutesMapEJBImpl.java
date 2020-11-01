@@ -100,7 +100,7 @@ public class RoutesMapEJBImpl implements RoutesMapEJB {
         if (routesMap == null)
             throw new RoutesMapNotFoundException();
         try {
-            dao.removeRoutesMap(routesMap);
+            dao.removeRoutesMap(routesMap.getName());
         } catch (Exception e) {
             throw new EJBException("Error on map removing.", e);
         }
@@ -144,7 +144,7 @@ public class RoutesMapEJBImpl implements RoutesMapEJB {
     private void addPlaceToMap(RoutesMap routesMap, Place place) {
         if (!routesMap.containsPlace(place)) {
             try {
-                dao.addPlaceToMap(routesMap, place);
+                dao.addPlaceToMap(routesMap.getName(), place);
                 routesMap.addPlace(place);
             } catch (Exception e) {
                 throw new EJBException("Error on place adding.", e);
@@ -167,7 +167,7 @@ public class RoutesMapEJBImpl implements RoutesMapEJB {
                 throw new EJBException("Error on route name slugifing.", e);
             }
             try {
-                dao.addRouteToMap(routesMap, route);
+                dao.addRouteToMap(routesMap.getName(), route);
                 routesMap.addRoute(route);
             } catch (Exception e) {
                 throw new EJBException("Error on route adding.", e);
@@ -193,7 +193,7 @@ public class RoutesMapEJBImpl implements RoutesMapEJB {
     private void removeRouteFromMap(RoutesMap routesMap, Route route) {
         if (routesMap.containsRoute(route)) {
             try {
-                dao.removeRouteFromMap(routesMap, route);
+                dao.removeRouteFromMap(routesMap.getName(), route);
                 routesMap.removeRoute(route);
             } catch (Exception e) {
                 throw new EJBException("Error on route removing.", e);

@@ -23,15 +23,15 @@
  */
 package br.com.esign.logistics.dao.impl;
 
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientURI;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import org.mongodb.morphia.Datastore;
+import dev.morphia.Datastore;
+import dev.morphia.Morphia;
 
 /**
  *
@@ -45,15 +45,13 @@ public class DatastoreAdapter {
     @Resource(lookup ="java:global/logistics/props/connectionURI")
     private String connectionURI;
     
-    @Inject
-    private MorphiaAdapter morphiaAdapter;
-    
     private Datastore datastore;
     
     @PostConstruct
     public void postConstruct() {
-        MongoClient mongoClient = new MongoClient(new MongoClientURI(connectionURI));
-        datastore = morphiaAdapter.createDatastore(mongoClient, "logistics");
+        MongoClient mongoClient = MongoClients.create(connectionURI);
+        datastore = Morphia.createDatastore(mongoClient, "logistics");
+        datastore.getMapper().mapPackage("br.com.esign.logistics.core");
         datastore.ensureIndexes();
         logger.log(Level.INFO, "Datastore successfully instantiated.");
     }

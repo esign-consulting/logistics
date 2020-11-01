@@ -27,85 +27,83 @@ import br.com.esign.logistics.core.Place;
 import br.com.esign.logistics.core.Route;
 import br.com.esign.logistics.core.RoutesMap;
 import br.com.esign.logistics.dao.RoutesMapDAO;
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
 import java.util.List;
-import org.mongodb.morphia.Datastore;
-import org.mongodb.morphia.dao.BasicDAO;
-import org.mongodb.morphia.mapping.Mapper;
-import org.mongodb.morphia.query.Query;
-import org.mongodb.morphia.query.UpdateOperations;
+import dev.morphia.Datastore;
+import dev.morphia.DeleteOptions;
+import dev.morphia.query.Query;
+import dev.morphia.query.experimental.filters.Filters;
+import dev.morphia.query.experimental.updates.UpdateOperators;
 
 /**
  *
  * @author gustavomunizdocarmo
  */
-public class RoutesMapDAOImpl extends BasicDAO<RoutesMap, String> implements RoutesMapDAO {
+public class RoutesMapDAOImpl implements RoutesMapDAO {
     
+    private Datastore datastore;
+
     public RoutesMapDAOImpl(Datastore datastore) {
-        super(datastore);
+        this.datastore = datastore;
     }
     
     @Override
     public List<RoutesMap> listRoutesMaps() {
-        return find().asList();
+        Query<RoutesMap> query = datastore.find(RoutesMap.class);
+        return query.iterator().toList();
     }
     
     @Override
     public RoutesMap getRoutesMapByName(String name) {
-        return get(name);
+        Query<RoutesMap> query = datastore.find(RoutesMap.class)
+            .filter(Filters.eq("name", name));
+        return query.iterator().tryNext();
     }
     
     @Override
     public RoutesMap getRoutesMapBySlug(String slug) {
-        return findOne("slug", slug);
+        Query<RoutesMap> query = datastore.find(RoutesMap.class)
+            .filter(Filters.eq("slug", slug));
+        return query.iterator().tryNext();
     }
     
     @Override
     public void saveRoutesMap(RoutesMap routesMap) {
-        save(routesMap);
+        datastore.save(routesMap);
     }
 
     @Override
-    public void removeRoutesMap(RoutesMap routesMap) {
-        delete(routesMap);
+    public void removeRoutesMap(String name) {
+        datastore.find(RoutesMap.class)
+            .filter(Filters.eq("name", name))
+            .delete();
     }
 
     @Override
     public void removeAllRoutesMaps() {
-        deleteByQuery(createQuery());
+        datastore.find(RoutesMap.class)
+            .delete(new DeleteOptions()
+            .multi(true));
     }
 
     @Override
-    public void addPlaceToMap(RoutesMap routesMap, Place place) {
-        Query<RoutesMap> updateQuery = createQuery().field(Mapper.ID_KEY).equal(routesMap.getName());
-        UpdateOperations<RoutesMap> ops = createUpdateOperations().addToSet("places", place);
-        update(updateQuery, ops);
+    public void addPlaceToMap(String name, Place place) {
+        datastore.find(RoutesMap.class)
+            .filter(Filters.eq("name", name))
+            .update(UpdateOperators.addToSet("places", place));
     }
     
     @Override
-    public void addRouteToMap(RoutesMap routesMap, Route route) {
-        DBObject origin = new BasicDBObject("name", route.getOrigin().getName());
-        DBObject destination = new BasicDBObject("name", route.getDestination().getName());
-        DBObject routeToAdd = new BasicDBObject("name", route.getName())
-            .append("name", route.getName())
-            .append("origin", origin)
-            .append("destination", destination)
-            .append("distance", route.getDistance())
-            .append("slug", route.getSlug());
-        DBObject routes = new BasicDBObject("routes", routeToAdd);
-        DBObject routesMapToUpdate = new BasicDBObject(Mapper.ID_KEY, routesMap.getName());
-        DBObject pushOperation = new BasicDBObject("$push", routes);
-        getCollection().update(routesMapToUpdate, pushOperation);
+    public void addRouteToMap(String name, Route route) {
+        datastore.find(RoutesMap.class)
+            .filter(Filters.eq("name", name))
+            .update(UpdateOperators.addToSet("routes", route));
     }
 
     @Override
-    public void removeRouteFromMap(RoutesMap routesMap, Route route) {
-        DBObject routeToRemove = new BasicDBObject("name", route.getName());
-        DBObject routes = new BasicDBObject("routes", routeToRemove);
-        DBObject routesMapToUpdate = new BasicDBObject(Mapper.ID_KEY, routesMap.getName());
-        DBObject pullOperation = new BasicDBObject("$pull", routes);
-        getCollection().update(routesMapToUpdate, pullOperation);
+    public void removeRouteFromMap(String name, Route route) {
+        datastore.find(RoutesMap.class)
+            .filter(Filters.eq("name", name))
+            .update(UpdateOperators.pull("routes", Filters.eq("name", route.getName())));
     }
     
 }

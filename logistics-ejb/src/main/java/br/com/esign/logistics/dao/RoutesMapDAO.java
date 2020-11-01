@@ -42,14 +42,14 @@ public interface RoutesMapDAO {
     
     public void saveRoutesMap(RoutesMap routesMap);
     
-    public void removeRoutesMap(RoutesMap routesMap);
+    public void removeRoutesMap(String name);
 
     public void removeAllRoutesMaps();
     
-    public void addPlaceToMap(RoutesMap routesMap, Place place);
+    public void addPlaceToMap(String name, Place place);
     
-    public void addRouteToMap(RoutesMap routesMap, Route route);
+    public void addRouteToMap(String name, Route route);
     
-    public void removeRouteFromMap(RoutesMap routesMap, Route route);
+    public void removeRouteFromMap(String name, Route route);
     
 }

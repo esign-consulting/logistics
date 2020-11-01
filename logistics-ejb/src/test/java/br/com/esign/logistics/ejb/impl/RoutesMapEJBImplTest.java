@@ -98,7 +98,7 @@ public class RoutesMapEJBImplTest {
     public void testRemoveRoutesMap() {
         RoutesMap routesMap = new RoutesMap(MAP_NAME);
         Mockito.when(dao.getRoutesMapBySlug(MAP_SLUG)).thenReturn(routesMap);
-        Mockito.doNothing().when(dao).removeRoutesMap(routesMap);
+        Mockito.doNothing().when(dao).removeRoutesMap(routesMap.getName());
         ejb.removeRoutesMap(MAP_SLUG);
     }
     
@@ -109,9 +109,9 @@ public class RoutesMapEJBImplTest {
     public void testAddRouteToMap() {
         RoutesMap routesMap = new RoutesMap(MAP_NAME);
         Mockito.when(dao.getRoutesMapBySlug(MAP_SLUG)).thenReturn(routesMap);
-        Mockito.doNothing().when(dao).addPlaceToMap(routesMap, PLACEA);
-        Mockito.doNothing().when(dao).addPlaceToMap(routesMap, PLACEB);
-        Mockito.doNothing().when(dao).addRouteToMap(routesMap, ROUTE1);
+        Mockito.doNothing().when(dao).addPlaceToMap(routesMap.getName(), PLACEA);
+        Mockito.doNothing().when(dao).addPlaceToMap(routesMap.getName(), PLACEB);
+        Mockito.doNothing().when(dao).addRouteToMap(routesMap.getName(), ROUTE1);
         Route[] routes = ejb.addRouteToMap(MAP_SLUG, ROUTE1);
         assertNotNull(routes);
         assertEquals(2, routes.length);
@@ -126,7 +126,7 @@ public class RoutesMapEJBImplTest {
         RoutesMap routesMap = new RoutesMap(MAP_NAME);
         routesMap.addRoute(ROUTE1);
         Mockito.when(dao.getRoutesMapBySlug(MAP_SLUG)).thenReturn(routesMap);
-        Mockito.doNothing().when(dao).removeRouteFromMap(routesMap, ROUTE1);
+        Mockito.doNothing().when(dao).removeRouteFromMap(routesMap.getName(), ROUTE1);
         ejb.removeRouteFromMap(MAP_SLUG, ROUTE1);
         assertFalse(routesMap.containsRoute(ROUTE1));
         assertFalse(routesMap.containsRoute(ROUTE1.opposite()));
