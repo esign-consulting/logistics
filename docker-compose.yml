@@ -1,6 +1,24 @@
 version: "2.4"
 services:
 
+  mongo:
+    image: mongo
+    container_name: mongo
+    healthcheck:
+      test: ["CMD-SHELL", "mongo --quiet 127.0.0.1/test --eval 'quit(db.runCommand({ ping: 1 }).ok ? 0 : 2)'"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  mongodb-ui:
+    image: mongo-express
+    container_name: mongodb-ui
+    ports:
+      - 8081:8081
+    depends_on:
+      mongo:
+        condition: service_healthy
+
   app:
     build: .
     image: esignbr/logistics
@@ -9,16 +27,7 @@ services:
       - 8080:8080
       - 9990:9990
     environment:
-      - MONGODB_URI=mongodb://mongodb/logistics
+      - MONGODB_URI=mongodb://mongo/logistics
     depends_on:
-      mongodb:
+      mongo:
         condition: service_healthy
-
-  mongodb:
-    image: mongo
-    container_name: mongodb
-    healthcheck:
-      test: ["CMD-SHELL", "mongo --quiet 127.0.0.1/test --eval 'quit(db.runCommand({ ping: 1 }).ok ? 0 : 2)'"]
-      interval: 10s
-      timeout: 5s
-      retries: 5

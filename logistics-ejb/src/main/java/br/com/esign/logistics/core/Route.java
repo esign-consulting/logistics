@@ -38,7 +38,7 @@ import dev.morphia.annotations.Transient;
  * @author gustavomunizdocarmo
  */
 @Embedded
-public class Route implements Comparable<Route>, Iterable<Route> {
+public class Route implements Comparable<Route> {
     
     private String name;
     
@@ -163,7 +163,6 @@ public class Route implements Comparable<Route>, Iterable<Route> {
         return name.compareTo(o.getName());
     }
     
-    @Override
     public Iterator<Route> iterator() {
         return routes.iterator();
     }

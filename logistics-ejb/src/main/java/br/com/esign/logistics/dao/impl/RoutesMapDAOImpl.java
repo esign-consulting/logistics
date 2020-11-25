@@ -89,21 +89,24 @@ public class RoutesMapDAOImpl implements RoutesMapDAO {
     public void addPlaceToMap(String name, Place place) {
         datastore.find(RoutesMap.class)
             .filter(Filters.eq("name", name))
-            .update(UpdateOperators.addToSet("places", place));
+            .update(UpdateOperators.addToSet("places", place))
+            .execute();
     }
     
     @Override
     public void addRouteToMap(String name, Route route) {
         datastore.find(RoutesMap.class)
             .filter(Filters.eq("name", name))
-            .update(UpdateOperators.addToSet("routes", route));
+            .update(UpdateOperators.addToSet("routes", route))
+            .execute();
     }
 
     @Override
     public void removeRouteFromMap(String name, Route route) {
         datastore.find(RoutesMap.class)
             .filter(Filters.eq("name", name))
-            .update(UpdateOperators.pull("routes", Filters.eq("name", route.getName())));
+            .update(UpdateOperators.pull("routes", Filters.eq("name", route.getName())))
+            .execute();
     }
     
 }
