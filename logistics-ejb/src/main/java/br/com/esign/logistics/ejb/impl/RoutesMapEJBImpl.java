@@ -191,13 +191,11 @@ public class RoutesMapEJBImpl implements RoutesMapEJB {
     }
     
     private void removeRouteFromMap(RoutesMap routesMap, Route route) {
-        if (routesMap.containsRoute(route)) {
-            try {
-                dao.removeRouteFromMap(routesMap.getName(), route);
-                routesMap.removeRoute(route);
-            } catch (Exception e) {
-                throw new EJBException("Error on route removing.", e);
-            }
+        try {
+            dao.removeRouteFromMap(routesMap.getName(), route);
+            routesMap.removeRoute(route);
+        } catch (Exception e) {
+            throw new EJBException("Error on route removing.", e);
         }
     }
 

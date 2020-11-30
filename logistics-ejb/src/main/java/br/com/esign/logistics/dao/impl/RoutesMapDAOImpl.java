@@ -105,7 +105,7 @@ public class RoutesMapDAOImpl implements RoutesMapDAO {
     public void removeRouteFromMap(String name, Route route) {
         datastore.find(RoutesMap.class)
             .filter(Filters.eq("name", name))
-            .update(UpdateOperators.pull("routes", Filters.eq("name", route.getName())))
+            .update(UpdateOperators.pull("routes", Filters.eq("slug", route.getSlug())))
             .execute();
     }
     
