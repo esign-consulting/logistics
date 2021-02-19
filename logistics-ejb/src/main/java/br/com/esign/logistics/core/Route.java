@@ -53,21 +53,13 @@ public class Route implements Comparable<Route> {
     
     private String slug;
     
-    private Route() {
-        this.name = null;
-        this.origin = null;
-        this.destination = null;
-        this.distance = 0;
-        this.routes = null;
-    }
-    
     public Route(Place origin, Place destination, double distance) {
         if (origin == null || destination == null || origin.equals(destination) || distance <= 0)
             throw new IllegalArgumentException();
         
         linkPlaces(origin, destination);
         this.distance = distance;
-        this.routes = Arrays.asList(new Route[] {this});
+        this.routes = Arrays.asList(this);
     }
     
     public final void linkPlaces(Place origin, Place destination) {
@@ -114,7 +106,7 @@ public class Route implements Comparable<Route> {
     
     public Route opposite() {
         if (routes == null || routes.isEmpty())
-            routes = Arrays.asList(new Route[] {this});
+            routes = Arrays.asList(this);
         
         int size = routes.size();
         if (size == 1) {

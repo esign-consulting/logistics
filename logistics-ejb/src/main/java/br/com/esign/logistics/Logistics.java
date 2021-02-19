@@ -44,8 +44,8 @@ public class Logistics {
             routesMap.addRoute("B", "E", 50);
             routesMap.addRoute("D", "E", 30);
 
-            RouteChooser routeChooser = new RouteChooserImpl(routesMap, new PathFinderImpl(), 10, 2.5);
-            ChosenRoute chosenRoute = (ChosenRoute) routeChooser.chooseRoute("A", "D");
+            RouteChooser<ChosenRoute> routeChooser = new RouteChooserImpl(routesMap, new PathFinderImpl(), 10, 2.5);
+            ChosenRoute chosenRoute = routeChooser.chooseRoute("A", "D");
             LOGGER.log(Level.INFO, "{0}: {1}", new Object[] {chosenRoute, chosenRoute.getCost()});
     }
 

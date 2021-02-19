@@ -28,6 +28,7 @@ import br.com.esign.logistics.core.Place;
 import br.com.esign.logistics.core.Route;
 import br.com.esign.logistics.core.RouteChooser;
 import br.com.esign.logistics.core.RoutesMap;
+import br.com.esign.logistics.core.impl.ChosenRoute;
 import br.com.esign.logistics.core.impl.RouteChooserImpl;
 import br.com.esign.logistics.dao.RoutesMapDAO;
 import br.com.esign.logistics.ejb.RoutesMapEJB;
@@ -207,7 +208,7 @@ public class RoutesMapEJBImpl implements RoutesMapEJB {
         
         try {
             routesMap.linkPlaces();
-            RouteChooser routeChooser = new RouteChooserImpl(routesMap, pathFinder, autonomy, gasPrice);
+            RouteChooser<ChosenRoute> routeChooser = new RouteChooserImpl(routesMap, pathFinder, autonomy, gasPrice);
             return routeChooser.chooseRoute(originName, destinationName);
         } catch (Exception e) {
             throw new EJBException("Error on best route obtaining.", e);

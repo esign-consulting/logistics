@@ -32,8 +32,13 @@ import javax.ejb.EJBException;
 public class RoutesMapNotFoundException extends EJBException {
 
     /**
-     * Creates a new instance of <code>RoutesMapNotFoundException</code> with
-     * the default detail message.
+     * Serializable class default serialVersionUID
+     */
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * Creates a new instance of <code>RoutesMapNotFoundException</code> with the
+     * default detail message.
      */
     public RoutesMapNotFoundException() {
         super("The map was not found.");

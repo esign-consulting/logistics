@@ -33,8 +33,6 @@ import br.com.esign.logistics.dao.RoutesMapDAO;
 import java.util.Arrays;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import org.junit.Rule;
-import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -65,9 +63,6 @@ public class RoutesMapEJBImplTest {
     @Mock
     private PathFinder pathFinder;
     
-    @Rule
-    public ExpectedException expectedEx = ExpectedException.none();
-    
     /**
      * Test of getRoutesMapBySlug method, of class RoutesMapEJBImpl.
      */
@@ -91,17 +86,6 @@ public class RoutesMapEJBImplTest {
         assertEquals(inputRoutesMap, outputRoutesMap);
     }
 
-    /**
-     * Test of removeRoutesMap method, of class RoutesMapEJBImpl.
-     */
-    @Test
-    public void testRemoveRoutesMap() {
-        RoutesMap routesMap = new RoutesMap(MAP_NAME);
-        Mockito.when(dao.getRoutesMapBySlug(MAP_SLUG)).thenReturn(routesMap);
-        Mockito.doNothing().when(dao).removeRoutesMap(routesMap.getName());
-        ejb.removeRoutesMap(MAP_SLUG);
-    }
-    
     /**
      * Test of addRouteToMap method, of class RoutesMapEJBImpl.
      */
