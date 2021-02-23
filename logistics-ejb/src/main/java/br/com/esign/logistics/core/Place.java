@@ -42,6 +42,10 @@ public class Place implements Comparable<Place> {
     @Transient @JsonIgnore
     private final Set<Place> destinations = new HashSet<>();
     
+    public Place() {
+        this.name = null;
+    }
+
     public Place(String name) {
         if (name == null || name.isEmpty())
             throw new IllegalArgumentException();

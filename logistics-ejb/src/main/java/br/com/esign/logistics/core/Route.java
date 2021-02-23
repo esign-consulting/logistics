@@ -53,6 +53,14 @@ public class Route implements Comparable<Route> {
     
     private String slug;
     
+    public Route() {
+        this.name = null;
+        this.origin = null;
+        this.destination = null;
+        this.distance = 0;
+        this.routes = null;
+    }
+
     public Route(Place origin, Place destination, double distance) {
         if (origin == null || destination == null || origin.equals(destination) || distance <= 0)
             throw new IllegalArgumentException();
