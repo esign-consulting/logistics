@@ -20,7 +20,6 @@ services:
         condition: service_healthy
 
   app:
-    build: .
     image: esignbr/logistics
     container_name: logistics
     ports:

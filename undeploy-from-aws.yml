@@ -28,7 +28,7 @@
 
     - name: Remove the Logistics application's private key
       file:
-        path: "{{ aws_key }}.pem"
+        path: "/tmp/{{ aws_key }}.pem"
         state: absent
 
     - name: Remove the Logistics application's key pairs
