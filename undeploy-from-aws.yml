@@ -19,7 +19,7 @@
       register: ec2_instance_info_result
 
     - name: Terminate the Logistics application's EC2 instance
-      ec2:
+      amazon.aws.ec2:
         region: "{{ aws_region }}"
         instance_ids: "{{ ec2_instance_info_result.instances[0].instance_id }}"
         state: absent
@@ -32,13 +32,13 @@
         state: absent
 
     - name: Remove the Logistics application's key pairs
-      ec2_key:
+      amazon.aws.ec2_key:
         region: "{{ aws_region }}"
         name: "{{ aws_key }}"
         state: absent
 
     - name: Remove the security group
-      ec2_group:
+      amazon.aws.ec2_group:
         region: "{{ aws_region }}"
         name: "{{ aws_security_group }}"
         state: absent
