@@ -14,7 +14,11 @@ all:
         aws:
           ansible_host: 0.0.0.0
           ansible_user: ubuntu
-          ansible_ssh_private_key_file: logistics-aws-key.pem
+          ansible_ssh_private_key_file: /tmp/logistics-aws-key.pem
+        azure:
+          ansible_host: 0.0.0.0
+          ansible_user: admin
+          ansible_ssh_private_key_file: /tmp/id_ssh_rsa
       vars:
         ansible_python_interpreter: python3
         ansible_become: true

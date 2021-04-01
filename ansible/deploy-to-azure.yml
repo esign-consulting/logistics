@@ -1,0 +1,102 @@
+---
+- hosts: localhost
+  gather_facts: false
+
+  tasks:
+    - name: Create the resource group
+      azure.azcollection.azure_rm_resourcegroup:
+        name: logistics-rg
+        location: westeurope
+
+    - name: Create the public ip address
+      azure.azcollection.azure_rm_publicipaddress:
+        resource_group: logistics-rg
+        name: logistics-ip
+        allocation_method: Static
+
+    - name: Create the network security group
+      azure.azcollection.azure_rm_securitygroup:
+        resource_group: logistics-rg
+        name: logistics-nsg
+        rules:
+          - name: SSH
+            protocol: Tcp
+            destination_port_range: 22
+            access: Allow
+            priority: 1001
+            direction: Inbound
+          - name: HTTP
+            protocol: Tcp
+            destination_port_range: 8080
+            access: Allow
+            priority: 1101
+            direction: Inbound
+          - name: Wildfly
+            protocol: Tcp
+            destination_port_range: 9990
+            access: Allow
+            priority: 1201
+            direction: Inbound
+
+    - name: Create the virtual network interface card
+      azure.azcollection.azure_rm_networkinterface:
+        resource_group: logistics-rg
+        name: logistics-nic
+        virtual_network_name: logistics-vnet
+        subnet_name: default
+        security_group_name: logistics-nsg
+        ip_configurations:
+          - name: default
+            public_ip_address_name: logistics-ip
+            primary: true
+
+    - name: Generate an OpenSSH keypair with the default values (4096 bits, rsa)
+      community.crypto.openssh_keypair:
+        path: /tmp/id_ssh_rsa
+      register: openssh_keypair_result
+
+    - name: Create the Logistics VM
+      azure.azcollection.azure_rm_virtualmachine:
+        resource_group: logistics-rg
+        name: logistics
+        admin_username: admin
+        ssh_password_enabled: false
+        ssh_public_keys:
+        - path: /home/admin/.ssh/authorized_keys
+          key_data: "{{ openssh_keypair_result.public_key }}"
+        vm_size: Standard_B1s
+        network_interfaces: logistics-nic
+        image:
+          offer: UbuntuServer
+          publisher: Canonical
+          sku: 18.04-LTS
+          version: latest
+      register: azure_rm_virtualmachine_result
+
+    - name: Replace the Logistics application's public IP address in the inventory
+      ansible.builtin.lineinfile:
+        path: inventory.yml
+        regexp: '^(\s*)ansible_host: \b(?:[0-9]{1,3}\.){3}[0-9]{1,3}\b$'
+        insertafter: '^\s*azure:$'
+        line: '\1ansible_host: {{ azure_rm_virtualmachine_result.ansible_facts.azure_vm.properties.networkProfile.networkInterfaces[0].properties.ipConfigurations[0].properties.publicIPAddress.properties.ipAddress }}'
+        backrefs: true
+
+    - name: Add the Logistics VM to the ansible-playbook in-memory inventory
+      ansible.builtin.add_host:
+        groups: azure-vm
+        hostname: "{{ azure_rm_virtualmachine_result.ansible_facts.azure_vm.properties.networkProfile.networkInterfaces[0].properties.ipConfigurations[0].properties.publicIPAddress.properties.ipAddress }}"
+        ansible_user: admin
+        ansible_ssh_private_key_file: /tmp/id_ssh_rsa
+        ansible_python_interpreter: /usr/bin/python3
+
+    - name: Wait for SSH
+      ansible.builtin.wait_for:
+        port: 22
+        host: "{{ azure_rm_virtualmachine_result.ansible_facts.azure_vm.properties.networkProfile.networkInterfaces[0].properties.ipConfigurations[0].properties.publicIPAddress.properties.ipAddress }}"
+        search_regex: SSH
+        delay: 10
+        timeout: 320
+
+- ansible.builtin.import_playbook: playbook.yml
+  vars:
+    target: azure-vm
