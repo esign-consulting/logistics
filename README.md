@@ -85,7 +85,7 @@ Finally, if you want to cleanup everything, execute the command:
 In order to deploy Logistics into an [EC2 instance](https://aws.amazon.com/ec2), execute the command below with your [AWS credentials](https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html#access-keys-and-secret-access-keys):
 
 ```bash
-docker run --rm -v $(pwd):/ansible \
+docker run --rm -v $(pwd)/ansible:/ansible \
     -e ANSIBLE_CONFIG=/ansible/ansible.cfg \
     -e AWS_ACCESS_KEY_ID=<aws_access_key_id> \
     -e AWS_SECRET_ACCESS_KEY=<aws_secret_access_key> \
@@ -95,7 +95,7 @@ docker run --rm -v $(pwd):/ansible \
 After deploying, check the output to find out what is the EC2 instance public IP address. You can get the IP from the *inventory.yml* file as well. Then, open the Logistics' URL in your browser, replacing the IP with the one you've just got. Finally, if you want to undo everything, just run:
 
 ```bash
-docker run --rm -v $(pwd):/ansible \
+docker run --rm -v $(pwd)/ansible:/ansible \
     -e ANSIBLE_CONFIG=/ansible/ansible.cfg \
     -e AWS_ACCESS_KEY_ID=<aws_access_key_id> \
     -e AWS_SECRET_ACCESS_KEY=<aws_secret_access_key> \

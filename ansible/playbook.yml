@@ -1,0 +1,37 @@
+---
+- hosts: "{{ target | default('default') }}"
+
+  tasks:
+    - name: Set up the Docker services
+      community.general.docker_compose:
+        project_name: logistics
+        definition:
+          version: "2.4"
+          services:
+            mongo:
+              image: mongo
+              container_name: mongo
+              healthcheck:
+                test: ["CMD-SHELL", "mongo --quiet 127.0.0.1/test --eval 'quit(db.runCommand({ ping: 1 }).ok ? 0 : 2)'"]
+                interval: 10s
+                timeout: 5s
+                retries: 5
+            app:
+              image: esignbr/logistics
+              container_name: logistics
+              ports:
+                - 8080:8080
+                - 9990:9990
+              environment:
+                - MONGODB_URI=mongodb://mongo/logistics
+              depends_on:
+                mongo:
+                  condition: service_healthy
+
+    - name: Wait until Logistics is up and running
+      ansible.builtin.uri:
+        url: "http://{{ ansible_default_ipv4.address }}:8080/logistics"
+      register: request
+      until: request.status == 200
+      retries: 20
+      delay: 2
