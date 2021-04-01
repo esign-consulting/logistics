@@ -102,6 +102,20 @@ docker run --rm -v $(pwd)/ansible:/ansible \
     codeyourinfra/myansible ansible-playbook ansible/undeploy-from-aws.yml
 ```
 
+## Deploying to Azure
+
+In order to deploy Logistics into an [Azure virtual machine](https://azure.microsoft.com/en-us/services/virtual-machines), execute the command below with your [Azure service principal](https://docs.microsoft.com/en-us/cli/azure/create-an-azure-service-principal-azure-cli):
+
+```bash
+docker run --rm -v $(pwd)/ansible:/ansible \
+    -e ANSIBLE_CONFIG=/ansible/ansible.cfg \
+    -e AZURE_CLIENT_ID=<azure_client_id> \
+    -e AZURE_SECRET=<azure_secret> \
+    -e AZURE_SUBSCRIPTION_ID=<azure_subscription_id> \
+    -e AZURE_TENANT=<azure_tenant> \
+    codeyourinfra/myansible ansible-playbook ansible/deploy-to-azure.yml
+```
+
 ## Logistics API
 
 The Logistics API documentation is generated through [Swagger](https://swagger.io) and can be checked by accessing the `/logistics/docs` endpoint, after deploying the application. In the [Esign Consulting website](http://www.esign.com.br), for example, the Logistics API documentation is available on <http://www.esign.com.br/logistics/docs>.

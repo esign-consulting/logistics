@@ -38,6 +38,19 @@
             priority: 1201
             direction: Inbound
 
+    - name: Create the virtual network
+      azure.azcollection.azure_rm_virtualnetwork:
+        resource_group: logistics-rg
+        name: logistics-vnet
+        address_prefixes: "10.0.0.0/16"
+
+    - name: Add a subnet to the virtual network
+      azure.azcollection.azure_rm_subnet:
+        resource_group: logistics-rg
+        name: default
+        address_prefix: "10.0.1.0/24"
+        virtual_network: logistics-vnet
+
     - name: Create the virtual network interface card
       azure.azcollection.azure_rm_networkinterface:
         resource_group: logistics-rg
@@ -59,10 +72,10 @@
       azure.azcollection.azure_rm_virtualmachine:
         resource_group: logistics-rg
         name: logistics
-        admin_username: admin
+        admin_username: esign
         ssh_password_enabled: false
         ssh_public_keys:
-        - path: /home/admin/.ssh/authorized_keys
+        - path: /home/esign/.ssh/authorized_keys
           key_data: "{{ openssh_keypair_result.public_key }}"
         vm_size: Standard_B1s
         network_interfaces: logistics-nic
@@ -83,9 +96,9 @@
 
     - name: Add the Logistics VM to the ansible-playbook in-memory inventory
       ansible.builtin.add_host:
-        groups: azure-vm
+        groups: azure_vm
         hostname: "{{ azure_rm_virtualmachine_result.ansible_facts.azure_vm.properties.networkProfile.networkInterfaces[0].properties.ipConfigurations[0].properties.publicIPAddress.properties.ipAddress }}"
-        ansible_user: admin
+        ansible_user: esign
         ansible_ssh_private_key_file: /tmp/id_ssh_rsa
         ansible_python_interpreter: /usr/bin/python3
 
@@ -99,4 +112,4 @@
 
 - ansible.builtin.import_playbook: playbook.yml
   vars:
-    target: azure-vm
+    target: azure_vm
