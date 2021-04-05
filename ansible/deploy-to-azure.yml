@@ -80,10 +80,8 @@
         vm_size: Standard_B1s
         network_interfaces: logistics-nic
         image:
-          offer: UbuntuServer
-          publisher: Canonical
-          sku: 18.04-LTS
-          version: latest
+          name: docker
+          resource_group: images-rg
       register: azure_rm_virtualmachine_result
 
     - name: Replace the Logistics application's public IP address in the inventory
