@@ -116,6 +116,18 @@ docker run --rm -v $(pwd)/ansible:/ansible \
     codeyourinfra/myansible ansible-playbook ansible/deploy-to-azure.yml
 ```
 
+After deploying, check the output to find out what is the Azure VM public IP address. You can get the IP from the *inventory.yml* file as well. Then, open the Logistics' URL in your browser, replacing the IP with the one you've just got. Finally, if you want to undo everything, just run:
+
+```bash
+docker run --rm -v $(pwd)/ansible:/ansible \
+    -e ANSIBLE_CONFIG=/ansible/ansible.cfg \
+    -e AZURE_CLIENT_ID=<azure_client_id> \
+    -e AZURE_SECRET=<azure_secret> \
+    -e AZURE_SUBSCRIPTION_ID=<azure_subscription_id> \
+    -e AZURE_TENANT=<azure_tenant> \
+    codeyourinfra/myansible ansible-playbook ansible/undeploy-from-azure.yml
+```
+
 ## Logistics API
 
 The Logistics API documentation is generated through [Swagger](https://swagger.io) and can be checked by accessing the `/logistics/docs` endpoint, after deploying the application. In the [Esign Consulting website](http://www.esign.com.br), for example, the Logistics API documentation is available on <http://www.esign.com.br/logistics/docs>.

@@ -83,6 +83,7 @@
           name: docker
           resource_group: images-rg
       register: azure_rm_virtualmachine_result
+      no_log: true
 
     - name: Replace the Logistics application's public IP address in the inventory
       ansible.builtin.lineinfile:
@@ -99,6 +100,7 @@
         ansible_user: esign
         ansible_ssh_private_key_file: /tmp/id_ssh_rsa
         ansible_python_interpreter: /usr/bin/python3
+        ansible_become: true
 
     - name: Wait for SSH
       ansible.builtin.wait_for:
