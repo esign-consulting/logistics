@@ -23,8 +23,6 @@
  */
 package br.com.esign.logistics.togglz;
 
-import static br.com.esign.logistics.togglz.MyFeatures.values;
-import java.util.HashMap;
 import java.util.Map;
 import org.junit.Test;
 import static org.junit.Assert.*;

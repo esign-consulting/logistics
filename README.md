@@ -82,15 +82,51 @@ Finally, if you want to cleanup everything, execute the command:
 
 ## Deploying to AWS
 
-If you've already installed [Ansible](https://www.ansible.com), you can make the deployment in the cloud too. In spite Ansible has [support to several Cloud providers](https://www.ansible.com/integrations/cloud), at the moment we only provide a playbook to deploy Logistics into an [EC2 instance of AWS](https://aws.amazon.com/ec2). Once you have your [AWS credentials](https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html#access-keys-and-secret-access-keys), run:
+In order to deploy Logistics into an [EC2 instance](https://aws.amazon.com/ec2), execute the command below with your [AWS credentials](https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html#access-keys-and-secret-access-keys):
 
-`ansible-playbook deploy-to-aws.yml`
+```bash
+docker run --rm -v $(pwd)/ansible:/ansible \
+    -e ANSIBLE_CONFIG=/ansible/ansible.cfg \
+    -e AWS_ACCESS_KEY_ID=<aws_access_key_id> \
+    -e AWS_SECRET_ACCESS_KEY=<aws_secret_access_key> \
+    codeyourinfra/myansible ansible-playbook ansible/deploy-to-aws.yml
+```
 
-Ansible uses [Boto 3](https://github.com/boto/boto3) in its [Amazon modules](https://docs.ansible.com/ansible/latest/modules/list_of_cloud_modules.html#amazon). During the execution, the playbook creates all the infrastructure required for accessing the application through the Internet. The [AMI](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIs.html) used is *codeyourinfra/docker*, one of the [Codeyourinfra's AWS AMIs](https://github.com/codeyourinfra/ubuntu-images#amazon-web-services-amis).
+After deploying, check the output to find out what is the EC2 instance public IP address. You can get the IP from the *inventory.yml* file as well. Then, open the Logistics' URL in your browser, replacing the IP with the one you've just got. Finally, if you want to undo everything, just run:
 
-Right after the deployment, check the output to find out what is the EC2 instance public IP address. You can get the IP from the *inventory.yml* file as well. Then, open the Logistics' URL in your browser, replacing the IP with the one you've just got. Finally, if you want to undo everything, just run:
+```bash
+docker run --rm -v $(pwd)/ansible:/ansible \
+    -e ANSIBLE_CONFIG=/ansible/ansible.cfg \
+    -e AWS_ACCESS_KEY_ID=<aws_access_key_id> \
+    -e AWS_SECRET_ACCESS_KEY=<aws_secret_access_key> \
+    codeyourinfra/myansible ansible-playbook ansible/undeploy-from-aws.yml
+```
 
-`ansible-playbook undeploy-from-aws.yml`
+## Deploying to Azure
+
+In order to deploy Logistics into an [Azure virtual machine](https://azure.microsoft.com/en-us/services/virtual-machines), execute the command below with your [Azure service principal](https://docs.microsoft.com/en-us/cli/azure/create-an-azure-service-principal-azure-cli):
+
+```bash
+docker run --rm -v $(pwd)/ansible:/ansible \
+    -e ANSIBLE_CONFIG=/ansible/ansible.cfg \
+    -e AZURE_CLIENT_ID=<azure_client_id> \
+    -e AZURE_SECRET=<azure_secret> \
+    -e AZURE_SUBSCRIPTION_ID=<azure_subscription_id> \
+    -e AZURE_TENANT=<azure_tenant> \
+    codeyourinfra/myansible ansible-playbook ansible/deploy-to-azure.yml
+```
+
+After deploying, check the output to find out what is the Azure VM public IP address. You can get the IP from the *inventory.yml* file as well. Then, open the Logistics' URL in your browser, replacing the IP with the one you've just got. Finally, if you want to undo everything, just run:
+
+```bash
+docker run --rm -v $(pwd)/ansible:/ansible \
+    -e ANSIBLE_CONFIG=/ansible/ansible.cfg \
+    -e AZURE_CLIENT_ID=<azure_client_id> \
+    -e AZURE_SECRET=<azure_secret> \
+    -e AZURE_SUBSCRIPTION_ID=<azure_subscription_id> \
+    -e AZURE_TENANT=<azure_tenant> \
+    codeyourinfra/myansible ansible-playbook ansible/undeploy-from-azure.yml
+```
 
 ## Logistics API
 

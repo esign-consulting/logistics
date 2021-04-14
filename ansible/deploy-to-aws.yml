@@ -1,6 +1,5 @@
 ---
 - hosts: localhost
-  connection: local
   gather_facts: false
 
   vars:
@@ -10,20 +9,13 @@
     aws_instance: logistics
 
   tasks:
-    - name: Install required Python packages
-      pip:
-        name: "{{ item }}"
-      loop:
-        - boto
-        - boto3
-
     - name: Get the VPCs
-      ec2_vpc_net_info:
+      amazon.aws.ec2_vpc_net_info:
         region: "{{ aws_region }}"
       register: ec2_vpc_net_info_result
 
     - name: Create the security group using the default VPC
-      ec2_group:
+      amazon.aws.ec2_group:
         region: "{{ aws_region }}"
         vpc_id: "{{ default_vpc.id }}"
         name: "{{ aws_security_group }}"
@@ -40,14 +32,14 @@
       register: ec2_group_result
 
     - name: Get the default VPC's subnets
-      ec2_vpc_subnet_info:
+      amazon.aws.ec2_vpc_subnet_info:
         region: "{{ aws_region }}"
         filters:
           vpc-id: "{{ ec2_group_result.vpc_id }}"
       register: ec2_vpc_subnet_info_result
 
     - name: Create the Logistics application's key pairs
-      ec2_key:
+      amazon.aws.ec2_key:
         region: "{{ aws_region }}"
         name: "{{ aws_key }}"
       register: ec2_key_result
@@ -55,12 +47,12 @@
     - name: Store the Logistics application's private key
       copy:
         content: "{{ ec2_key_result.key.private_key }}"
-        dest: "{{ aws_key }}.pem"
+        dest: "/tmp/{{ aws_key }}.pem"
         mode: 0400
       when: ec2_key_result.key.private_key is defined
 
     - name: Find Codeyourinfra Docker AMI
-      ec2_ami_info:
+      amazon.aws.ec2_ami_info:
         region: "{{ aws_region }}"
         owners: 334305766942
         filters:
@@ -68,7 +60,7 @@
       register: ec2_ami_info_result
 
     - name: Create the Logistics application's EC2 instance
-      ec2:
+      amazon.aws.ec2:
         region: "{{ aws_region }}"
         group: "{{ aws_security_group }}"
         vpc_subnet_id: "{{ aws_vpc_subnet.subnet_id }}"
@@ -88,7 +80,7 @@
       register: ec2_result
 
     - name: Replace the Logistics application's public IP address in the inventory
-      lineinfile:
+      ansible.builtin.lineinfile:
         path: inventory.yml
         regexp: '^(\s*)ansible_host: \b(?:[0-9]{1,3}\.){3}[0-9]{1,3}\b$'
         insertafter: '^\s*aws:$'
@@ -96,22 +88,22 @@
         backrefs: true
 
     - name: Add the Logistics application's EC2 instance to the ansible-playbook in-memory inventory
-      add_host:
+      ansible.builtin.add_host:
         groups: logistics_ec2
         hostname: "{{ ec2_result.instances[0].public_ip }}"
         ansible_user: ubuntu
-        ansible_ssh_private_key_file: "{{ aws_key }}.pem"
+        ansible_ssh_private_key_file: "/tmp/{{ aws_key }}.pem"
         ansible_python_interpreter: python3
         ansible_become: true
 
     - name: Wait for SSH
-      wait_for:
+      ansible.builtin.wait_for:
         port: 22
         host: "{{ ec2_result.instances[0].public_ip }}"
         search_regex: SSH
         delay: 10
         timeout: 320
 
-- import_playbook: playbook.yml
+- ansible.builtin.import_playbook: playbook.yml
   vars:
     target: logistics_ec2

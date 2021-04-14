@@ -27,6 +27,8 @@ import br.com.esign.logistics.core.Place;
 import br.com.esign.logistics.core.Route;
 import br.com.esign.logistics.core.RoutesMap;
 import br.com.esign.logistics.dao.RoutesMapDAO;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.List;
 import dev.morphia.Datastore;
 import dev.morphia.DeleteOptions;
@@ -40,6 +42,8 @@ import dev.morphia.query.experimental.updates.UpdateOperators;
  */
 public class RoutesMapDAOImpl implements RoutesMapDAO {
     
+    private static final Logger logger = Logger.getLogger(RoutesMapDAOImpl.class.getName());
+
     private Datastore datastore;
 
     public RoutesMapDAOImpl(Datastore datastore) {
@@ -68,11 +72,13 @@ public class RoutesMapDAOImpl implements RoutesMapDAO {
     
     @Override
     public void saveRoutesMap(RoutesMap routesMap) {
+        logger.log(Level.INFO, "Saving the map {0}...", new Object[] {routesMap.getName()});
         datastore.save(routesMap);
     }
 
     @Override
     public void removeRoutesMap(String name) {
+        logger.log(Level.INFO, "Removing the map {0}...", new Object[] {name});
         datastore.find(RoutesMap.class)
             .filter(Filters.eq("name", name))
             .delete();
@@ -80,6 +86,7 @@ public class RoutesMapDAOImpl implements RoutesMapDAO {
 
     @Override
     public void removeAllRoutesMaps() {
+        logger.log(Level.INFO, "Removing all maps...");
         datastore.find(RoutesMap.class)
             .delete(new DeleteOptions()
             .multi(true));
@@ -87,6 +94,7 @@ public class RoutesMapDAOImpl implements RoutesMapDAO {
 
     @Override
     public void addPlaceToMap(String name, Place place) {
+        logger.log(Level.INFO, "Adding place {0} to map {1}...", new Object[] {place.getName(), name});
         datastore.find(RoutesMap.class)
             .filter(Filters.eq("name", name))
             .update(UpdateOperators.addToSet("places", place))
@@ -95,6 +103,7 @@ public class RoutesMapDAOImpl implements RoutesMapDAO {
     
     @Override
     public void addRouteToMap(String name, Route route) {
+        logger.log(Level.INFO, "Adding route {0} to map {1}...", new Object[] {route.getName(), name});
         datastore.find(RoutesMap.class)
             .filter(Filters.eq("name", name))
             .update(UpdateOperators.addToSet("routes", route))
@@ -103,9 +112,10 @@ public class RoutesMapDAOImpl implements RoutesMapDAO {
 
     @Override
     public void removeRouteFromMap(String name, Route route) {
+        logger.log(Level.INFO, "Removing route {0} from map {1}...", new Object[] {route.getName(), name});
         datastore.find(RoutesMap.class)
             .filter(Filters.eq("name", name))
-            .update(UpdateOperators.pull("routes", Filters.eq("slug", route.getSlug())))
+            .update(UpdateOperators.pull("routes", Filters.eq("name", route.getName())))
             .execute();
     }
     

@@ -50,10 +50,10 @@ public class RoutesMap implements Comparable<RoutesMap> {
     @Indexed
     private String slug;
     
-    private RoutesMap() {
+    public RoutesMap() {
         this.name = null;
     }
-    
+
     public RoutesMap(String name) {
         if (name == null || name.isEmpty())
             throw new IllegalArgumentException();

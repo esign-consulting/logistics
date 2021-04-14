@@ -88,7 +88,7 @@ public class RouteChooserImplTest {
         routesMap.addRoute("C", "D", 30);
         routesMap.addRoute("B", "E", 50);
         routesMap.addRoute("D", "E", 30);
-        RouteChooser routeChooser = new RouteChooserImpl(routesMap, new PathFinderImpl(), 10, 2.5);
+        RouteChooser<ChosenRoute> routeChooser = new RouteChooserImpl(routesMap, new PathFinderImpl(), 10, 2.5);
         ChosenRoute chosenRoute = (ChosenRoute) routeChooser.chooseRoute("A", "D");
         assertEquals(routeABD.getRoutes(), chosenRoute.getRoutes());
         assertEquals(6.25, chosenRoute.getCost(), 0);

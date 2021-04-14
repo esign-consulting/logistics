@@ -1,0 +1,10 @@
+---
+- hosts: localhost
+  gather_facts: false
+
+  tasks:
+    - name: Remove the resource group
+      azure.azcollection.azure_rm_resourcegroup:
+        name: logistics-rg
+        state: absent
+        force_delete_nonempty: true
