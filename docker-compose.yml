@@ -2,10 +2,10 @@ version: "2.4"
 services:
 
   mongo:
-    image: mongo
+    image: mongo:6.0.2
     container_name: mongo
     healthcheck:
-      test: ["CMD-SHELL", "mongo --quiet 127.0.0.1/test --eval 'quit(db.runCommand({ ping: 1 }).ok ? 0 : 2)'"]
+      test: ["CMD-SHELL", "mongosh --quiet localhost/test --eval 'quit(db.runCommand({ ping: 1 }).ok ? 0 : 2)'"]
       interval: 10s
       timeout: 5s
       retries: 5
