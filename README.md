@@ -89,7 +89,7 @@ docker run --rm -v $(pwd)/ansible:/ansible \
     -e ANSIBLE_CONFIG=/ansible/ansible.cfg \
     -e AWS_ACCESS_KEY_ID=<aws_access_key_id> \
     -e AWS_SECRET_ACCESS_KEY=<aws_secret_access_key> \
-    codeyourinfra/myansible ansible-playbook ansible/deploy-to-aws.yml
+    codeyourinfra/myansible ansible-playbook /ansible/deploy-to-aws.yml
 ```
 
 After deploying, check the output to find out what is the EC2 instance public IP address. You can get the IP from the *inventory.yml* file as well. Then, open the Logistics' URL in your browser, replacing the IP with the one you've just got. Finally, if you want to undo everything, just run:
@@ -99,7 +99,7 @@ docker run --rm -v $(pwd)/ansible:/ansible \
     -e ANSIBLE_CONFIG=/ansible/ansible.cfg \
     -e AWS_ACCESS_KEY_ID=<aws_access_key_id> \
     -e AWS_SECRET_ACCESS_KEY=<aws_secret_access_key> \
-    codeyourinfra/myansible ansible-playbook ansible/undeploy-from-aws.yml
+    codeyourinfra/myansible ansible-playbook /ansible/undeploy-from-aws.yml
 ```
 
 ## Deploying to Azure
@@ -113,7 +113,7 @@ docker run --rm -v $(pwd)/ansible:/ansible \
     -e AZURE_SECRET=<azure_secret> \
     -e AZURE_SUBSCRIPTION_ID=<azure_subscription_id> \
     -e AZURE_TENANT=<azure_tenant> \
-    codeyourinfra/myansible ansible-playbook ansible/deploy-to-azure.yml
+    codeyourinfra/myansible ansible-playbook /ansible/deploy-to-azure.yml
 ```
 
 After deploying, check the output to find out what is the Azure VM public IP address. You can get the IP from the *inventory.yml* file as well. Then, open the Logistics' URL in your browser, replacing the IP with the one you've just got. Finally, if you want to undo everything, just run:
@@ -125,7 +125,7 @@ docker run --rm -v $(pwd)/ansible:/ansible \
     -e AZURE_SECRET=<azure_secret> \
     -e AZURE_SUBSCRIPTION_ID=<azure_subscription_id> \
     -e AZURE_TENANT=<azure_tenant> \
-    codeyourinfra/myansible ansible-playbook ansible/undeploy-from-azure.yml
+    codeyourinfra/myansible ansible-playbook /ansible/undeploy-from-azure.yml
 ```
 
 ## Logistics API
