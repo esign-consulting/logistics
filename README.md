@@ -21,7 +21,7 @@ The Logistics application has quality in its core. Beyond unit tests, the follow
 
 Project | Test type | Build status
 ------- | --------- | ------------
-[logistics-test-arquillian](https://github.com/esign-consulting/logistics-test-arquillian) | Integration test | [![Build status](https://travis-ci.org/esign-consulting/logistics-test-arquillian.svg?branch=master)](https://travis-ci.org/esign-consulting/logistics-test-arquillian)
+[logistics-test-arquillian](https://github.com/esign-consulting/logistics-test-arquillian) | Integration test | [![Build status](https://github.com/esign-consulting/logistics-test-arquillian/workflows/Java%20CI/badge.svg)](https://github.com/esign-consulting/logistics-test-arquillian/actions?query=workflow%3A%22Java+CI%22)
 [logistics-test-restassured](https://github.com/esign-consulting/logistics-test-restassured) | API test | [![Build status](https://github.com/esign-consulting/logistics-test-restassured/workflows/Java%20CI/badge.svg)](https://github.com/esign-consulting/logistics-test-restassured/actions?query=workflow%3A%22Java+CI%22)
 [logistics-test-selenium](https://github.com/esign-consulting/logistics-test-selenium) | UI test | [![Build status](https://travis-ci.org/esign-consulting/logistics-test-selenium.svg?branch=master)](https://travis-ci.org/esign-consulting/logistics-test-selenium)
 [logistics-test-jmeter](https://github.com/esign-consulting/logistics-test-jmeter) | Load test | [![Build status](https://travis-ci.org/esign-consulting/logistics-test-jmeter.svg?branch=master)](https://travis-ci.org/esign-consulting/logistics-test-jmeter)
