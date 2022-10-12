@@ -27,14 +27,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-import dev.morphia.annotations.Embedded;
+import dev.morphia.annotations.Entity;
 import dev.morphia.annotations.Transient;
 
 /**
  * 
  * @author gustavomunizdocarmo
  */
-@Embedded
+@Entity
 public class Place implements Comparable<Place> {
 	
     private final String name;
