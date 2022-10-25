@@ -25,7 +25,6 @@ cache:
     - '$HOME/.sonar/cache'
 
 after_success:
-  - mvn -s settings.xml source:jar deploy -DskipTests=true
   - sshpass -p $FTP_PASSWORD sftp -o StrictHostKeyChecking=no -o BatchMode=no -b sftp-commands $FTP_USER@esign.com.br
   - |
     if [ "$TRIGGER_TESTS" = "true" ]; then
