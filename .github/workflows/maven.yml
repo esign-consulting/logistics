@@ -15,5 +15,10 @@ jobs:
         distribution: 'microsoft'
         java-version: 11
         cache: 'maven'
-    - name: Build with Maven
+    - name: Build and Analyse with Maven
       run: mvn clean install sonar:sonar -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+    - name: Deploy with Maven
+      run: mvn -s settings.xml source:jar deploy -DskipTests=true
+      env:
+        OSSRH_USER: ${{ secrets.OSSRH_USER }}
+        OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
