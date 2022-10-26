@@ -17,6 +17,14 @@ done
 # Init submodules
 git submodule update --init --recursive
 
+# Run the Integration test
+mvn -f test-arquillian test
+if [ $? -ne 0 ]; then
+    echo "Failure on Integration test. Aborting..."
+    docker-compose down
+    exit 1
+fi
+
 # Run the API test
 mvn -f test-restassured test -Dserver.host=http://localhost -Dserver.port=8080
 if [ $? -ne 0 ]; then
@@ -34,7 +42,7 @@ if [ $? -ne 0 ]; then
 fi
 
 # Run the Load test
-mvn -f test-jmeter verify -Dserver.host=localhost -Dserver.port=8080
+mvn -f test-jmeter clean verify -Dserver.host=localhost -Dserver.port=8080
 if [ $? -ne 0 ]; then
     echo "Failure on Load test. Aborting..."
     docker-compose down
