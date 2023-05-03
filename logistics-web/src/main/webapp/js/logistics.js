@@ -49,7 +49,7 @@ angular.module('logistics', ['ui.bootstrap'])
         
         $scope.openAddMapModal = function() {
             
-            var modalInstance = $modal.open({
+            const modalInstance = $modal.open({
                 animation: true,
                 templateUrl: 'addMapModal.html',
                 controller: 'AddMapModalController',
@@ -72,7 +72,7 @@ angular.module('logistics', ['ui.bootstrap'])
         
         $scope.removeMap = function(map) {
             
-            var modalInstance = $modal.open({
+            const modalInstance = $modal.open({
                 animation: true,
                 templateUrl: 'removeMapModal.html',
                 controller: 'RemoveMapModalController',
@@ -99,7 +99,7 @@ angular.module('logistics', ['ui.bootstrap'])
         
         $scope.removeAllMaps = function() {
             
-            var modalInstance = $modal.open({
+            const modalInstance = $modal.open({
                 animation: true,
                 templateUrl: 'removeAllMapsModal.html',
                 controller: 'RemoveAllMapsModalController'
@@ -121,7 +121,7 @@ angular.module('logistics', ['ui.bootstrap'])
 
         $scope.openAddRouteModal = function(map) {
             
-            var modalInstance = $modal.open({
+            const modalInstance = $modal.open({
                 animation: true,
                 templateUrl: 'addRouteModal.html',
                 controller: 'AddRouteModalController',
@@ -149,7 +149,7 @@ angular.module('logistics', ['ui.bootstrap'])
         
         $scope.removeRoute = function(map, route) {
             
-            var modalInstance = $modal.open({
+            const modalInstance = $modal.open({
                 animation: true,
                 templateUrl: 'removeRouteModal.html',
                 controller: 'RemoveRouteModalController',
@@ -170,14 +170,14 @@ angular.module('logistics', ['ui.bootstrap'])
                 $http.delete('api/maps/' + result.map.slug + '/routes/' + result.route.slug)
                     .then(function(response) {
 
-                        var oppositeRouteName = result.route.destination.name + " -> " + result.route.origin.name;
+                        const oppositeRouteName = result.route.destination.name + " -> " + result.route.origin.name;
                         $scope.alerts.push({type: 'success', msg: 'The routes \'' + result.route.name + '\' and \'' + oppositeRouteName + '\' were successfully removed.'});
                         
-                        var map = $scope.maps[$scope.maps.indexOf(result.map)];
+                        const map = $scope.maps[$scope.maps.indexOf(result.map)];
                         map.routes.splice(map.routes.indexOf(result.route), 1);
 
-                        var oppositeRouteIndex = -1;
-                        for (var i = map.routes.length - 1; i >= 0; i --) {
+                        let oppositeRouteIndex = -1;
+                        for (let i = map.routes.length - 1; i >= 0; i --) {
                             if (map.routes[i].name === oppositeRouteName) {
                                 oppositeRouteIndex = i;
                                 break;
@@ -194,7 +194,7 @@ angular.module('logistics', ['ui.bootstrap'])
         
         $scope.openBestRouteModal = function(map) {
             
-            var modalInstance = $modal.open({
+            const modalInstance = $modal.open({
                 animation: true,
                 templateUrl: 'bestRouteModal.html',
                 controller: 'BestRouteModalController',
