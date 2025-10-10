@@ -1,6 +1,11 @@
 # Logistics
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Build status](https://travis-ci.org/esign-consulting/logistics.svg?branch=master)](https://travis-ci.org/esign-consulting/logistics) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=br.com.esign%3Alogistics&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=br.com.esign%3Alogistics) [![Known Vulnerabilities](https://snyk.io/test/github/esign-consulting/logistics/badge.svg)](https://snyk.io/test/github/esign-consulting/logistics) [![Docker Build status](https://img.shields.io/docker/image-size/esignbr/logistics)](https://hub.docker.com/r/esignbr/logistics/builds) [![Docker Pulls](https://img.shields.io/docker/pulls/esignbr/logistics.svg)](https://hub.docker.com/r/esignbr/logistics) [![Demo Application](https://img.shields.io/website-up-down-green-red/http/www.esign.com.br/logistics.svg?label=demo)](http://www.esign.com.br/logistics)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=esign-consulting_logistics&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=esign-consulting_logistics)
+[![Known Vulnerabilities](https://snyk.io/test/github/esign-consulting/logistics/badge.svg)](https://snyk.io/test/github/esign-consulting/logistics)
+[![Docker Build status](https://img.shields.io/docker/image-size/esignbr/logistics)](https://hub.docker.com/r/esignbr/logistics/builds)
+[![Docker Pulls](https://img.shields.io/docker/pulls/esignbr/logistics.svg)](https://hub.docker.com/r/esignbr/logistics)
+[![Demo Application](https://img.shields.io/website-up-down-green-red/http/www.esign.com.br/logistics.svg?label=demo)](http://www.esign.com.br/logistics)
 
 The goal of the Logistcs application is find out the best route between two places within a map. Once created, add routes to the map, as following:
 
