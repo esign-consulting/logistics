@@ -29,7 +29,7 @@ import br.com.esign.logistics.core.Place;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 
 /**
  * 

@@ -36,10 +36,10 @@ import br.com.esign.logistics.ejb.RoutesMapNotFoundException;
 import br.com.esign.logistics.togglz.MyFeatures;
 import com.github.slugify.Slugify;
 import java.util.List;
-import javax.ejb.EJB;
-import javax.ejb.EJBException;
-import javax.ejb.Stateless;
-import javax.inject.Inject;
+import jakarta.ejb.EJB;
+import jakarta.ejb.EJBException;
+import jakarta.ejb.Stateless;
+import jakarta.inject.Inject;
 
 /**
  *

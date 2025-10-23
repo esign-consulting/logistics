@@ -23,7 +23,7 @@
  */
 package br.com.esign.logistics.ejb;
 
-import javax.ejb.EJBException;
+import jakarta.ejb.EJBException;
 
 /**
  *

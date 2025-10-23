@@ -27,9 +27,9 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.Resource;
+import jakarta.enterprise.context.ApplicationScoped;
 import dev.morphia.Datastore;
 import dev.morphia.Morphia;
 

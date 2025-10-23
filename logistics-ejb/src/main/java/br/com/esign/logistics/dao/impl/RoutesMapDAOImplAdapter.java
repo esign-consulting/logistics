@@ -28,9 +28,9 @@ import br.com.esign.logistics.core.Route;
 import br.com.esign.logistics.core.RoutesMap;
 import br.com.esign.logistics.dao.RoutesMapDAO;
 import java.util.List;
-import javax.annotation.PostConstruct;
-import javax.ejb.Stateless;
-import javax.inject.Inject;
+import jakarta.annotation.PostConstruct;
+import jakarta.ejb.Stateless;
+import jakarta.inject.Inject;
 
 /**
  *
