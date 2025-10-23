@@ -19,8 +19,8 @@ jobs:
           java-version: 21.0.2
           cache: 'maven'
       - name: Build with Maven
-        run: mvn verify sonar:sonar -Dsonar.token=${{ secrets.SONAR_TOKEN }}
+        run: mvn verify sonar:sonar -Dsonar.token=${{ secrets.SONAR_TOKEN }} -ntp
       - name: Deploy to Maven Repository
-        run: mvn -Dmaven.test.skip=true deploy -s settings.xml
+        run: mvn -Dmaven.test.skip=true deploy -s settings.xml -ntp
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
