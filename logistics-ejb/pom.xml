@@ -52,12 +52,12 @@
         <dependency>
             <groupId>org.togglz</groupId>
             <artifactId>togglz-core</artifactId>
-            <version>2.9.9</version>
+            <version>4.4.0</version>
         </dependency>
         <dependency>
             <groupId>org.togglz</groupId>
             <artifactId>togglz-junit</artifactId>
-            <version>2.5.0.Final</version>
+            <version>4.4.0</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

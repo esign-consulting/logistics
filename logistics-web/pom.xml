@@ -36,7 +36,7 @@
         <dependency>
             <groupId>org.togglz</groupId>
             <artifactId>togglz-console</artifactId>
-            <version>2.9.9</version>
+            <version>4.4.0</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.togglz</groupId>
