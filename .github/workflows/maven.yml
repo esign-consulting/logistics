@@ -31,4 +31,4 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.ESIGN_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          sftp -i ~/.ssh/id_rsa -b sftp-commands esign@esign.com.br
+          sftp -i ~/.ssh/id_rsa -b sftp-commands ${{ secrets.ESIGN_USERNAME }}@${{ secrets.ESIGN_HOST }}
