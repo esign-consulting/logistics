@@ -26,3 +26,9 @@ jobs:
         run: mvn -Dmaven.test.skip=true deploy -s settings.xml -ntp
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Deploy to Esign
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.ESIGN_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          sftp -i ~/.ssh/id_rsa -b sftp-commands esign@esign.com.br
