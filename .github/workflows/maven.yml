@@ -31,4 +31,9 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.ESIGN_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
+
+          # Add host key to known_hosts
+          ssh-keyscan -H ${{ secrets.ESIGN_HOST }} >> ~/.ssh/known_hosts
+
+          # Run SFTP batch commands
           sftp -i ~/.ssh/id_rsa -b sftp-commands ${{ secrets.ESIGN_USERNAME }}@${{ secrets.ESIGN_HOST }}
