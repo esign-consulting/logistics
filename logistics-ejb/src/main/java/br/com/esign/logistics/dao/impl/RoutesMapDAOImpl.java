@@ -33,8 +33,8 @@ import java.util.List;
 import dev.morphia.Datastore;
 import dev.morphia.DeleteOptions;
 import dev.morphia.query.Query;
-import dev.morphia.query.experimental.filters.Filters;
-import dev.morphia.query.experimental.updates.UpdateOperators;
+import dev.morphia.query.filters.Filters;
+import dev.morphia.query.updates.UpdateOperators;
 
 /**
  *

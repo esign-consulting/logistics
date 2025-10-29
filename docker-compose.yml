@@ -1,8 +1,7 @@
-version: "2.4"
 services:
 
   mongo:
-    image: mongo:6.0.2
+    image: mongo:8.2.1
     container_name: mongo
     healthcheck:
       test: ["CMD-SHELL", "mongosh --quiet localhost/test --eval 'quit(db.runCommand({ ping: 1 }).ok ? 0 : 2)'"]
